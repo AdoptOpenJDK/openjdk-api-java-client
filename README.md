@@ -35,7 +35,7 @@ Then:
 ```
 AdoptOpenJDKRequestsType requests = AdoptOpenJDK.get(1);
 
-List<AORelease> releases = releasesForVariant("openjdk9");
+List<AORelease> releases = requests.releasesForVariant("openjdk9");
 ```
 
 The API operates entirely synchronously and raises checked exceptions on
