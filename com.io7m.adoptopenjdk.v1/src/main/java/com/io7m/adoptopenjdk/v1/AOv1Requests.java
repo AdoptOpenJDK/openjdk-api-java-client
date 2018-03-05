@@ -16,6 +16,8 @@
 
 package com.io7m.adoptopenjdk.v1;
 
+import com.io7m.adoptopenjdk.spi.AOAPIRequestsType;
+import com.io7m.adoptopenjdk.spi.AOAPIVersionProviderType;
 import com.io7m.adoptopenjdk.spi.AOException;
 import com.io7m.adoptopenjdk.spi.AORelease;
 import org.slf4j.Logger;
@@ -183,6 +185,48 @@ public final class AOv1Requests implements AOv1RequestsType
         MessageFormat.format(
           this.messages.getString("api_rate_limit_exceeded"),
           Integer.valueOf(this.rate_limit.retry_in)));
+    }
+  }
+
+  /**
+   * A provider for the {@link AOAPIVersionProviderType} interface.
+   */
+
+  public static final class Provider implements AOAPIVersionProviderType
+  {
+    /**
+     * Construct a provider. This method is intended to be called
+     * by {@link java.util.ServiceLoader}.
+     */
+
+    public Provider()
+    {
+
+    }
+
+    /**
+     * Create a new 1.0 request provider. This method is intended to be called
+     * by {@link java.util.ServiceLoader}.
+     *
+     * @return A new provider
+     */
+
+    public static AOAPIVersionProviderType provider()
+    {
+      return new Provider();
+    }
+
+    @Override
+    public int supportedMajorAPI()
+    {
+      return 1;
+    }
+
+    @Override
+    public AOAPIRequestsType create()
+      throws AOException
+    {
+      return open();
     }
   }
 

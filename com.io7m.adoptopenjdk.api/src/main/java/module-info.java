@@ -14,21 +14,17 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import com.io7m.adoptopenjdk.spi.AOAPIVersionProviderType;
-import com.io7m.adoptopenjdk.v1.AOv1Requests;
+import com.io7m.adoptopenjdk.spi.AOAPIRequestsType;
 
 /**
- * Version 1.* API provider.
+ * AdoptOpenJDK API.
  */
 
-module com.io7m.adoptopenjdk.v1
+module com.io7m.adoptopenjdk.api
 {
-  requires com.io7m.jaffirm.core;
   requires com.io7m.adoptopenjdk.spi;
-  requires com.fasterxml.jackson.core;
-  requires org.slf4j;
 
-  exports com.io7m.adoptopenjdk.v1;
+  exports com.io7m.adoptopenjdk.api;
 
-  provides AOAPIVersionProviderType with AOv1Requests.Provider;
+  uses AOAPIRequestsType;
 }

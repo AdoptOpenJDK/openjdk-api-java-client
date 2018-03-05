@@ -14,47 +14,53 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package com.io7m.adoptopenjdk.v1;
-
-import com.io7m.adoptopenjdk.spi.AOAPIRequestsType;
-import com.io7m.adoptopenjdk.spi.AOException;
-import com.io7m.adoptopenjdk.spi.AORelease;
-import com.io7m.adoptopenjdk.spi.AOReleases;
+package com.io7m.adoptopenjdk.spi;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * The type of requests that can be made to the remote server.
  */
 
-public interface AOv1RequestsType extends AOAPIRequestsType
+public interface AOAPIRequestsType
 {
-  @Override
+  /**
+   * @return The number of requests that can be made before the server begins rejecting requests (for rate limiting)
+   */
+
   int rateLimitRemaining();
 
-  @Override
+  /**
+   * List the available releases on the server.
+   *
+   * @param variant The build variant
+   *
+   * @return A list of available releases
+   *
+   * @throws AOException On any and all errors
+   */
+
   List<AORelease> releasesForVariant(
     String variant)
     throws AOException;
 
-  @Override
-  default List<AORelease> releasesForVariantWith(
-    final String variant,
-    final Optional<String> os,
-    final Optional<String> architecture)
-    throws AOException
-  {
-    Objects.requireNonNull(variant, "variant");
-    Objects.requireNonNull(os, "operating_system");
-    Objects.requireNonNull(architecture, "architecture");
+  /**
+   * List the available releases on the server, filtering by the given
+   * optional information.
+   *
+   * @param variant      The build variant
+   * @param os           The operating system, if any
+   * @param architecture The architecture, if any
+   *
+   * @return A list of available releases
+   *
+   * @throws AOException On any and all errors
+   */
 
-    return this.releasesForVariant(variant)
-      .stream()
-      .filter(r -> r.hasBinaryWith(os, architecture))
-      .map(r -> AOReleases.releaseWithMatchingBinaries(r, os, architecture))
-      .collect(Collectors.toList());
-  }
+  List<AORelease> releasesForVariantWith(
+    String variant,
+    Optional<String> os,
+    Optional<String> architecture)
+    throws AOException;
 }

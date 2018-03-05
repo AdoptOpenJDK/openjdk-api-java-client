@@ -14,21 +14,20 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import com.io7m.adoptopenjdk.spi.AOAPIVersionProviderType;
-import com.io7m.adoptopenjdk.v1.AOv1Requests;
+package com.io7m.adoptopenjdk.tests.api;
 
-/**
- * Version 1.* API provider.
- */
+import com.io7m.adoptopenjdk.api.AdoptOpenJDK;
+import com.io7m.adoptopenjdk.api.AdoptOpenJDKRequestsType;
+import com.io7m.adoptopenjdk.spi.AOException;
+import org.junit.Test;
 
-module com.io7m.adoptopenjdk.v1
+public final class AdoptOpenJDKTest
 {
-  requires com.io7m.jaffirm.core;
-  requires com.io7m.adoptopenjdk.spi;
-  requires com.fasterxml.jackson.core;
-  requires org.slf4j;
-
-  exports com.io7m.adoptopenjdk.v1;
-
-  provides AOAPIVersionProviderType with AOv1Requests.Provider;
+  @Test
+  public void testGetAndUse()
+    throws AOException
+  {
+    final AdoptOpenJDKRequestsType requests = AdoptOpenJDK.get(1);
+    requests.rateLimitRemaining();
+  }
 }

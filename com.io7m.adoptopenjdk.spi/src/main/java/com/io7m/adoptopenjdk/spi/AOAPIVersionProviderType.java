@@ -14,21 +14,26 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import com.io7m.adoptopenjdk.spi.AOAPIVersionProviderType;
-import com.io7m.adoptopenjdk.v1.AOv1Requests;
+package com.io7m.adoptopenjdk.spi;
 
 /**
- * Version 1.* API provider.
+ * The type of request providers.
  */
 
-module com.io7m.adoptopenjdk.v1
+public interface AOAPIVersionProviderType
 {
-  requires com.io7m.jaffirm.core;
-  requires com.io7m.adoptopenjdk.spi;
-  requires com.fasterxml.jackson.core;
-  requires org.slf4j;
+  /**
+   * @return The API major version supported by the provider
+   */
 
-  exports com.io7m.adoptopenjdk.v1;
+  int supportedMajorAPI();
 
-  provides AOAPIVersionProviderType with AOv1Requests.Provider;
+  /**
+   * @return A new requests interface
+   *
+   * @throws AOException If the interface cannot be initialized
+   */
+
+  AOAPIRequestsType create()
+    throws AOException;
 }

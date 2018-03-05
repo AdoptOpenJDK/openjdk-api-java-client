@@ -26,6 +26,7 @@
     <module>com.io7m.adoptopenjdk.spi</module>
     <module>com.io7m.adoptopenjdk.tests</module>
     <module>com.io7m.adoptopenjdk.v1</module>
+    <module>com.io7m.adoptopenjdk.api</module>
   </modules>
 
   <properties>

@@ -8,3 +8,35 @@ AdoptOpenJDK-Java
 [![Codecov](https://img.shields.io/codecov/c/github/io7m/AdoptOpenJDK-Java.svg?style=flat-square)](https://codecov.io/gh/io7m/AdoptOpenJDK-Java)
 
 ![adoptopenjdk](./src/site/resources/adoptopenjdk.jpg?raw=true)
+
+Usage
+===
+
+Use the following Maven dependencies:
+
+```
+    <dependency>
+      <groupId>com.io7m.adoptopenjdk</groupId>
+      <artifactId>com.io7m.adoptopenjdk.api</artifactId>
+      <version><!-- Insert latest version --></version>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.adoptopenjdk</groupId>
+      <artifactId>com.io7m.adoptopenjdk.v1</artifactId>
+      <version><!-- Insert latest version --></version>
+    </dependency>
+```
+
+The first dependency specifies that you want to use the API, and the second
+is a basic provider for the version `1.0.0` API.
+
+Then:
+
+```
+AdoptOpenJDKRequestsType requests = AdoptOpenJDK.get(1);
+
+List<AORelease> releases = releasesForVariant("openjdk9");
+```
+
+The API operates entirely synchronously and raises checked exceptions on
+failures. Do not share values of type `AdoptOpenJDKRequestsType` across threads.

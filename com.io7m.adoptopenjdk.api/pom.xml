@@ -12,39 +12,18 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>com.io7m.adoptopenjdk.tests</artifactId>
-  <packaging>jar</packaging>
+  <artifactId>com.io7m.adoptopenjdk.api</artifactId>
+  <packaging>bundle</packaging>
 
-  <name>com.io7m.adoptopenjdk.tests</name>
-  <description>Adopt OpenJDK API (Test suite)</description>
+  <name>com.io7m.adoptopenjdk.spi</name>
+  <description>Adopt OpenJDK API (API)</description>
   <url>http://io7m.github.io/adoptopenjdk/</url>
 
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>com.io7m.adoptopenjdk.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
       <artifactId>com.io7m.adoptopenjdk.spi</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>com.io7m.adoptopenjdk.v1</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -56,10 +35,18 @@
         <artifactId>maven-checkstyle-plugin</artifactId>
       </plugin>
 
-      <!-- Determine test coverage -->
+      <!-- Produce OSGi bundle -->
       <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Export-Package>
+              com.io7m.adoptopenjdk.api
+            </Export-Package>
+          </instructions>
+        </configuration>
       </plugin>
     </plugins>
   </build>
