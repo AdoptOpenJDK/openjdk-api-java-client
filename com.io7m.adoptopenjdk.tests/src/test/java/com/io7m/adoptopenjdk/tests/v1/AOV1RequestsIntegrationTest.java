@@ -38,10 +38,14 @@ public final class AOV1RequestsIntegrationTest
   public void testOpen()
     throws AOException
   {
-    final AOv1RequestsType requests = AOv1Requests.open();
-    Assert.assertTrue(
-      "Must detect the right number of remaining requests",
-      (long) requests.rateLimitRemaining() >= 0L);
+    try {
+      final AOv1RequestsType requests = AOv1Requests.open();
+      Assert.assertTrue(
+        "Must detect the right number of remaining requests",
+        (long) requests.rateLimitRemaining() >= 0L);
+    } catch (final AOv1HTTPException e) {
+      checkAcceptableHTTPException(e);
+    }
   }
 
   @Test
@@ -55,10 +59,23 @@ public final class AOV1RequestsIntegrationTest
         "Must have at least one release parsed",
         releases.size() > 0);
     } catch (final AOv1HTTPException e) {
-      if (e.statusCode() == 429) {
-        LOG.info("exceeded rate limit on server: ", e);
-        return;
-      }
+      checkAcceptableHTTPException(e);
+    }
+  }
+
+  @Test
+  public void testParseOpenJDK8Nightlies()
+    throws AOException
+  {
+    try {
+      final AOv1RequestsType requests = AOv1Requests.open();
+      final List<AORelease> releases =
+        requests.nightlyBuildsForVariant("openjdk8");
+      Assert.assertTrue(
+        "Must have at least one release parsed",
+        releases.size() > 0);
+    } catch (final AOv1HTTPException e) {
+      checkAcceptableHTTPException(e);
     }
   }
 
@@ -73,10 +90,25 @@ public final class AOV1RequestsIntegrationTest
         "Must have at least one variant parsed",
         variants.size() > 0);
     } catch (final AOv1HTTPException e) {
-      if (e.statusCode() == 429) {
-        LOG.info("exceeded rate limit on server: ", e);
-        return;
-      }
+      checkAcceptableHTTPException(e);
     }
+  }
+
+  private static void checkAcceptableHTTPException(AOv1HTTPException e)
+    throws AOv1HTTPException
+  {
+    if (e.statusCode() == 429) {
+      LOG.info("exceeded rate limit on server: ", e);
+      return;
+    }
+    if (e.statusCode() == 521) {
+      LOG.info("server failure: ", e);
+      return;
+    }
+    if (e.statusCode() == 520) {
+      LOG.info("server failure: ", e);
+      return;
+    }
+    throw e;
   }
 }

@@ -62,4 +62,27 @@ public interface AOv1RequestsType extends AOAPIRequestsType
       .map(r -> AOReleases.releaseWithMatchingBinaries(r, os, architecture))
       .collect(Collectors.toList());
   }
+
+  @Override
+  List<AORelease> nightlyBuildsForVariant(
+    String variant)
+    throws AOException;
+
+  @Override
+  default List<AORelease> nightlyBuildsForVariantWith(
+    final String variant,
+    final Optional<String> os,
+    final Optional<String> architecture)
+    throws AOException
+  {
+    Objects.requireNonNull(variant, "variant");
+    Objects.requireNonNull(os, "operating_system");
+    Objects.requireNonNull(architecture, "architecture");
+
+    return this.nightlyBuildsForVariant(variant)
+      .stream()
+      .filter(r -> r.hasBinaryWith(os, architecture))
+      .map(r -> AOReleases.releaseWithMatchingBinaries(r, os, architecture))
+      .collect(Collectors.toList());
+  }
 }

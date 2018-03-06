@@ -107,7 +107,8 @@ public final class AdoptOpenJDK
     }
 
     @Override
-    public List<AORelease> releasesForVariant(final String variant)
+    public List<AORelease> releasesForVariant(
+      final String variant)
       throws AOException
     {
       return this.requests.releasesForVariant(variant);
@@ -121,6 +122,24 @@ public final class AdoptOpenJDK
       throws AOException
     {
       return this.requests.releasesForVariantWith(variant, os, architecture);
+    }
+
+    @Override
+    public List<AORelease> nightlyBuildsForVariant(
+      final String variant)
+      throws AOException
+    {
+      return this.requests.nightlyBuildsForVariant(variant);
+    }
+
+    @Override
+    public List<AORelease> nightlyBuildsForVariantWith(
+      final String variant,
+      final Optional<String> os,
+      final Optional<String> architecture)
+      throws AOException
+    {
+      return this.requests.nightlyBuildsForVariantWith(variant, os, architecture);
     }
   }
 }

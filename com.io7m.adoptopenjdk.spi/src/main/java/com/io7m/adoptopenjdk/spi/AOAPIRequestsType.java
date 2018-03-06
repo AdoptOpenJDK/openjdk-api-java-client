@@ -74,4 +74,37 @@ public interface AOAPIRequestsType
     Optional<String> os,
     Optional<String> architecture)
     throws AOException;
+
+  /**
+   * List the available nightly builds on the server.
+   *
+   * @param variant The build variant
+   *
+   * @return A list of available nightly builds
+   *
+   * @throws AOException On any and all errors
+   */
+
+  List<AORelease> nightlyBuildsForVariant(
+    String variant)
+    throws AOException;
+
+  /**
+   * List the available nightly builds on the server, filtering by the given
+   * optional information.
+   *
+   * @param variant      The build variant
+   * @param os           The operating system, if any
+   * @param architecture The architecture, if any
+   *
+   * @return A list of available nightly builds
+   *
+   * @throws AOException On any and all errors
+   */
+
+  List<AORelease> nightlyBuildsForVariantWith(
+    String variant,
+    Optional<String> os,
+    Optional<String> architecture)
+    throws AOException;
 }

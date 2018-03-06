@@ -182,9 +182,36 @@ public final class AOv1Requests implements AOv1RequestsType
   public List<AORelease> releasesForVariant(final String variant)
     throws AOException
   {
+    Objects.requireNonNull(variant, "variant");
+
     this.checkRateLimitRemaining();
 
-    final URI target = URI.create("https://api.adoptopenjdk.net/" + variant);
+    final URI target =
+      URI.create("https://api.adoptopenjdk.net/" + variant + "/releases");
+
+    try (AOv1HTTPConnectionType connection =
+           this.connections.get(target, standardProperties())) {
+
+      this.rate_limit = rateLimitForConnection(connection);
+      try (InputStream stream = connection.input()) {
+        return this.parser.parseReleases(target, stream);
+      }
+    } catch (final IOException e) {
+      throw new AOException(e.getMessage(), e);
+    }
+  }
+
+  @Override
+  public List<AORelease> nightlyBuildsForVariant(final String variant)
+    throws AOException
+  {
+    Objects.requireNonNull(variant, "variant");
+
+    this.checkRateLimitRemaining();
+
+    final URI target =
+      URI.create("https://api.adoptopenjdk.net/" + variant + "/nightly");
+
     try (AOv1HTTPConnectionType connection =
            this.connections.get(target, standardProperties())) {
 
