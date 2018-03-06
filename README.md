@@ -15,16 +15,16 @@ Usage
 Use the following Maven dependencies:
 
 ```
-    <dependency>
-      <groupId>com.io7m.adoptopenjdk</groupId>
-      <artifactId>com.io7m.adoptopenjdk.api</artifactId>
-      <version><!-- Insert latest version --></version>
-    </dependency>
-    <dependency>
-      <groupId>com.io7m.adoptopenjdk</groupId>
-      <artifactId>com.io7m.adoptopenjdk.v1</artifactId>
-      <version><!-- Insert latest version --></version>
-    </dependency>
+<dependency>
+  <groupId>com.io7m.adoptopenjdk</groupId>
+  <artifactId>com.io7m.adoptopenjdk.api</artifactId>
+  <version><!-- Insert latest version --></version>
+</dependency>
+<dependency>
+  <groupId>com.io7m.adoptopenjdk</groupId>
+  <artifactId>com.io7m.adoptopenjdk.v1</artifactId>
+  <version><!-- Insert latest version --></version>
+</dependency>
 ```
 
 The first dependency specifies that you want to use the API, and the second
