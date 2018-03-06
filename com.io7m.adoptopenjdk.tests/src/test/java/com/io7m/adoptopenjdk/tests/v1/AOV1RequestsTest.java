@@ -18,6 +18,7 @@ package com.io7m.adoptopenjdk.tests.v1;
 
 import com.io7m.adoptopenjdk.spi.AOException;
 import com.io7m.adoptopenjdk.spi.AORelease;
+import com.io7m.adoptopenjdk.spi.AOVariant;
 import com.io7m.adoptopenjdk.tests.spi.AOReleasesTest;
 import com.io7m.adoptopenjdk.v1.AOv1Requests;
 import com.io7m.adoptopenjdk.v1.AOv1RequestsType;
@@ -131,5 +132,48 @@ public final class AOV1RequestsTest
         Optional.empty());
 
     Assert.assertEquals(releases_0, releases_1);
+  }
+
+  @Test
+  public void testParseVariants()
+    throws AOException, IOException
+  {
+    final MockConnection connection_0 =
+      MockConnection.create(
+        Map.of("X-RateLimit-Remaining", "100",
+               "Retry-After", "3600"));
+
+    final MockConnection connection_1 =
+      MockConnection.createWithData(
+        Map.of("X-RateLimit-Remaining", "200",
+               "Retry-After", "3600"),
+        resource("variants.json"));
+
+    final MockConnections connections = new MockConnections();
+    connections.addConnection(connection_0);
+    connections.addConnection(connection_1);
+
+    final AOv1RequestsType requests = AOv1Requests.open(connections);
+    final List<AOVariant> variants = requests.variants();
+
+    Assert.assertEquals(200L, (long) requests.rateLimitRemaining());
+    Assert.assertEquals(0L, (long) connections.queue().size());
+    Assert.assertEquals(5L, (long) variants.size());
+
+    Assert.assertEquals(
+      AOVariant.of("openjdk8", "OpenJDK 8 with Hotspot"),
+      variants.get(0));
+    Assert.assertEquals(
+      AOVariant.of("openjdk8-openj9", "OpenJDK 8 with Eclipse OpenJ9"),
+      variants.get(1));
+    Assert.assertEquals(
+      AOVariant.of("openjdk9", "OpenJDK 9 with Hotspot"),
+      variants.get(2));
+    Assert.assertEquals(
+      AOVariant.of("openjdk9-openj9", "OpenJDK 9 with Eclipse OpenJ9"),
+      variants.get(3));
+    Assert.assertEquals(
+      AOVariant.of("openjdk10", "OpenJDK 10 with Hotspot"),
+      variants.get(4));
   }
 }

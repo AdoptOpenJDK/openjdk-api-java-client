@@ -20,6 +20,7 @@ import com.io7m.adoptopenjdk.spi.AOAPIRequestsType;
 import com.io7m.adoptopenjdk.spi.AOException;
 import com.io7m.adoptopenjdk.spi.AORelease;
 import com.io7m.adoptopenjdk.spi.AOReleases;
+import com.io7m.adoptopenjdk.spi.AOVariant;
 
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +35,10 @@ public interface AOv1RequestsType extends AOAPIRequestsType
 {
   @Override
   int rateLimitRemaining();
+
+  @Override
+  List<AOVariant> variants()
+    throws AOException;
 
   @Override
   List<AORelease> releasesForVariant(

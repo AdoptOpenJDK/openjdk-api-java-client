@@ -18,6 +18,7 @@ package com.io7m.adoptopenjdk.tests.v1;
 
 import com.io7m.adoptopenjdk.spi.AOParseException;
 import com.io7m.adoptopenjdk.spi.AORelease;
+import com.io7m.adoptopenjdk.spi.AOVariant;
 import com.io7m.adoptopenjdk.tests.spi.AOReleasesTest;
 import com.io7m.adoptopenjdk.v1.AOv1Parser;
 import org.junit.Assert;
@@ -153,6 +154,60 @@ public final class AOv1ParserTest
     try (InputStream stream = resource("openjdk8_bad_5.json")) {
       this.expected.expect(AOParseException.class);
       parser.parseReleases(URI.create("openjdk8.json"), stream);
+    }
+  }
+
+  @Test
+  public void testVariants()
+    throws Exception
+  {
+    final AOv1Parser parser = new AOv1Parser();
+
+    try (InputStream stream = resource("variants.json")) {
+      final List<AOVariant> variants =
+        parser.parseVariants(URI.create("variants.json"), stream);
+
+      Assert.assertEquals(5L, (long) variants.size());
+
+      Assert.assertEquals(
+        AOVariant.of("openjdk8", "OpenJDK 8 with Hotspot"),
+        variants.get(0));
+      Assert.assertEquals(
+        AOVariant.of("openjdk8-openj9", "OpenJDK 8 with Eclipse OpenJ9"),
+        variants.get(1));
+      Assert.assertEquals(
+        AOVariant.of("openjdk9", "OpenJDK 9 with Hotspot"),
+        variants.get(2));
+      Assert.assertEquals(
+        AOVariant.of("openjdk9-openj9", "OpenJDK 9 with Eclipse OpenJ9"),
+        variants.get(3));
+      Assert.assertEquals(
+        AOVariant.of("openjdk10", "OpenJDK 10 with Hotspot"),
+        variants.get(4));
+    }
+  }
+
+  @Test
+  public void testVariants_Bad0()
+    throws Exception
+  {
+    final AOv1Parser parser = new AOv1Parser();
+
+    try (InputStream stream = resource("variants_bad_0.json")) {
+      this.expected.expect(AOParseException.class);
+      parser.parseVariants(URI.create("variants_bad_0.json"), stream);
+    }
+  }
+
+  @Test
+  public void testVariants_Bad1()
+    throws Exception
+  {
+    final AOv1Parser parser = new AOv1Parser();
+
+    try (InputStream stream = resource("variants_bad_1.json")) {
+      this.expected.expect(AOParseException.class);
+      parser.parseVariants(URI.create("variants_bad_1.json"), stream);
     }
   }
 }

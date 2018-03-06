@@ -20,6 +20,7 @@ import com.io7m.adoptopenjdk.spi.AOAPIRequestsType;
 import com.io7m.adoptopenjdk.spi.AOAPIVersionProviderType;
 import com.io7m.adoptopenjdk.spi.AOException;
 import com.io7m.adoptopenjdk.spi.AORelease;
+import com.io7m.adoptopenjdk.spi.AOVariant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -156,6 +157,25 @@ public final class AOv1Requests implements AOv1RequestsType
   public int rateLimitRemaining()
   {
     return this.rate_limit.remaining;
+  }
+
+  @Override
+  public List<AOVariant> variants()
+    throws AOException
+  {
+    this.checkRateLimitRemaining();
+
+    final URI target = URI.create("https://api.adoptopenjdk.net/variants");
+    try (AOv1HTTPConnectionType connection =
+           this.connections.get(target, standardProperties())) {
+
+      this.rate_limit = rateLimitForConnection(connection);
+      try (InputStream stream = connection.input()) {
+        return this.parser.parseVariants(target, stream);
+      }
+    } catch (final IOException e) {
+      throw new AOException(e.getMessage(), e);
+    }
   }
 
   @Override

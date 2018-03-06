@@ -20,6 +20,7 @@ import com.io7m.adoptopenjdk.spi.AOAPIRequestsType;
 import com.io7m.adoptopenjdk.spi.AOAPIVersionProviderType;
 import com.io7m.adoptopenjdk.spi.AOException;
 import com.io7m.adoptopenjdk.spi.AORelease;
+import com.io7m.adoptopenjdk.spi.AOVariant;
 
 import java.util.List;
 import java.util.Objects;
@@ -96,6 +97,13 @@ public final class AdoptOpenJDK
     public int rateLimitRemaining()
     {
       return this.requests.rateLimitRemaining();
+    }
+
+    @Override
+    public List<AOVariant> variants()
+      throws AOException
+    {
+      return this.requests.variants();
     }
 
     @Override

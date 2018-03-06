@@ -18,6 +18,7 @@ package com.io7m.adoptopenjdk.tests.v1;
 
 import com.io7m.adoptopenjdk.spi.AOException;
 import com.io7m.adoptopenjdk.spi.AORelease;
+import com.io7m.adoptopenjdk.spi.AOVariant;
 import com.io7m.adoptopenjdk.v1.AOv1HTTPException;
 import com.io7m.adoptopenjdk.v1.AOv1Requests;
 import com.io7m.adoptopenjdk.v1.AOv1RequestsType;
@@ -53,6 +54,24 @@ public final class AOV1RequestsIntegrationTest
       Assert.assertTrue(
         "Must have at least one release parsed",
         releases.size() > 0);
+    } catch (final AOv1HTTPException e) {
+      if (e.statusCode() == 429) {
+        LOG.info("exceeded rate limit on server: ", e);
+        return;
+      }
+    }
+  }
+
+  @Test
+  public void testParseVariants()
+    throws AOException
+  {
+    try {
+      final AOv1RequestsType requests = AOv1Requests.open();
+      final List<AOVariant> variants = requests.variants();
+      Assert.assertTrue(
+        "Must have at least one variant parsed",
+        variants.size() > 0);
     } catch (final AOv1HTTPException e) {
       if (e.statusCode() == 429) {
         LOG.info("exceeded rate limit on server: ", e);

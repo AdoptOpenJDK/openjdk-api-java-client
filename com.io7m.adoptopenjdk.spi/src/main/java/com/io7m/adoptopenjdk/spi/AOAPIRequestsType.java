@@ -32,6 +32,17 @@ public interface AOAPIRequestsType
   int rateLimitRemaining();
 
   /**
+   * List the available build variants on the server.
+   *
+   * @return A list of variants
+   *
+   * @throws AOException On any and all errors
+   */
+
+  List<AOVariant> variants()
+    throws AOException;
+
+  /**
    * List the available releases on the server.
    *
    * @param variant The build variant

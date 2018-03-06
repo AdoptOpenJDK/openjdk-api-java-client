@@ -24,6 +24,7 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.io7m.adoptopenjdk.spi.AOBinary;
 import com.io7m.adoptopenjdk.spi.AOParseException;
 import com.io7m.adoptopenjdk.spi.AORelease;
+import com.io7m.adoptopenjdk.spi.AOVariant;
 import com.io7m.jaffirm.core.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -497,5 +498,133 @@ public final class AOv1Parser
   {
     return this.parseErrorExpectedReceived(
       Optional.empty(), uri, parser, expected, received);
+  }
+
+
+  /**
+   * Parse an array of variants.
+   *
+   * @param uri    The URI of the stream for diagnostic messages
+   * @param stream The input stream
+   *
+   * @return A list of releases
+   *
+   * @throws IOException      On I/O errors
+   * @throws AOParseException On parse errors
+   */
+
+  public List<AOVariant> parseVariants(
+    final URI uri,
+    final InputStream stream)
+    throws AOParseException, IOException
+  {
+    Objects.requireNonNull(uri, "uri");
+    Objects.requireNonNull(stream, "stream");
+
+    final Instant time_then = Instant.now();
+
+    try {
+      final List<AOVariant> variants = new ArrayList<>(8);
+      final JsonFactory parsers = new JsonFactory();
+      try (JsonParser parser = parsers.createParser(stream)) {
+        while (true) {
+          final JsonToken next = parser.nextToken();
+          LOG.trace("{}: token: {}", uri, next);
+          if (next == null) {
+            break;
+          }
+
+          this.requireOneOf(uri, parser, next, START_ARRAY);
+          this.parseVariantsArray(uri, parser, variants);
+        }
+      }
+
+      return variants;
+    } catch (final JsonProcessingException e) {
+      throw new AOParseException(e.getMessage(), e);
+    } finally {
+      final Instant time_now = Instant.now();
+      LOG.debug("parsed in {}", Duration.between(time_then, time_now));
+    }
+  }
+
+  /**
+   * Parse an array of variants from the given parser.
+   */
+
+  private void parseVariantsArray(
+    final URI uri,
+    final JsonParser parser,
+    final Collection<AOVariant> variants)
+    throws IOException, AOParseException
+  {
+    Preconditions.checkPrecondition(
+      parser.currentToken() == START_ARRAY,
+      "Parser must be at array start");
+
+    while (true) {
+      final JsonToken next = parser.nextToken();
+      LOG.trace("{}: token: {}", uri, next);
+      this.requireNotEOF(uri, parser, next);
+
+      this.requireOneOf(uri, parser, next, START_OBJECT, END_ARRAY);
+      if (next == END_ARRAY) {
+        return;
+      }
+
+      variants.add(this.parseVariant(uri, parser));
+    }
+  }
+
+  /**
+   * Parse a single variant from the given parser.
+   */
+
+  private AOVariant parseVariant(
+    final URI uri,
+    final JsonParser parser)
+    throws IOException, AOParseException
+  {
+    Preconditions.checkPrecondition(
+      parser.currentToken() == START_OBJECT,
+      "Parser must be at object start");
+
+    final AOVariant.Builder builder = AOVariant.builder();
+
+    while (true) {
+      final JsonToken next = parser.nextToken();
+      LOG.trace("{}: token: {}", uri, next);
+      this.requireNotEOF(uri, parser, next);
+
+      this.requireOneOf(uri, parser, next, FIELD_NAME, END_OBJECT);
+      if (next == END_OBJECT) {
+        break;
+      }
+
+      final String field_name = parser.getText();
+      switch (field_name) {
+        case "name": {
+          parser.nextToken();
+          builder.setDescription(parser.getText());
+          break;
+        }
+        case "variant": {
+          parser.nextToken();
+          builder.setName(parser.getText());
+          break;
+        }
+        default: {
+          LOG.warn("ignoring unrecognized field: {}", field_name);
+          parser.nextToken();
+          parser.skipChildren();
+        }
+      }
+    }
+
+    try {
+      return builder.build();
+    } catch (final IllegalStateException e) {
+      throw this.parseErrorMissingFields(uri, parser, e);
+    }
   }
 }
