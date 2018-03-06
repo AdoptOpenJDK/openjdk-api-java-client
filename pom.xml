@@ -37,7 +37,7 @@
     <com.io7m.adoptopenjdk.org.immutables.version>2.6.0-alpha1</com.io7m.adoptopenjdk.org.immutables.version>
   </properties>
 
-  <inceptionYear>2017</inceptionYear>
+  <inceptionYear>2018</inceptionYear>
 
   <licenses>
     <license>
