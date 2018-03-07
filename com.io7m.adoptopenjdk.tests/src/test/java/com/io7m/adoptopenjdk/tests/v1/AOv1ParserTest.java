@@ -188,6 +188,36 @@ public final class AOv1ParserTest
   }
 
   @Test
+  public void testVariantsWarnings()
+    throws Exception
+  {
+    final AOv1Parser parser = new AOv1Parser();
+
+    try (InputStream stream = resource("variants_warnings.json")) {
+      final List<AOVariant> variants =
+        parser.parseVariants(URI.create("variants_warnings.json"), stream);
+
+      Assert.assertEquals(5L, (long) variants.size());
+
+      Assert.assertEquals(
+        AOVariant.of("openjdk8", "OpenJDK 8 with Hotspot"),
+        variants.get(0));
+      Assert.assertEquals(
+        AOVariant.of("openjdk8-openj9", "OpenJDK 8 with Eclipse OpenJ9"),
+        variants.get(1));
+      Assert.assertEquals(
+        AOVariant.of("openjdk9", "OpenJDK 9 with Hotspot"),
+        variants.get(2));
+      Assert.assertEquals(
+        AOVariant.of("openjdk9-openj9", "OpenJDK 9 with Eclipse OpenJ9"),
+        variants.get(3));
+      Assert.assertEquals(
+        AOVariant.of("openjdk10", "OpenJDK 10 with Hotspot"),
+        variants.get(4));
+    }
+  }
+
+  @Test
   public void testVariants_Bad0()
     throws Exception
   {
