@@ -20,7 +20,7 @@ import net.adoptopenjdk.spi.AOAPIRequestsType;
 
 module net.adoptopenjdk.api
 {
-  requires net.adoptopenjdk.spi;
+  requires transitive net.adoptopenjdk.spi;
 
   exports net.adoptopenjdk.api;
 
