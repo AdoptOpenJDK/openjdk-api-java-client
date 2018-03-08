@@ -43,6 +43,9 @@ List<AORelease> releases =
 
 List<AORelease> releases_8 =
   requests.releasesForVariant("openjdk8");
+
+List<AORelease> nightlies_9 =
+  requests.nightlyBuildsForVariant("openjdk9");
 ```
 
 The API operates entirely synchronously and raises checked exceptions on
