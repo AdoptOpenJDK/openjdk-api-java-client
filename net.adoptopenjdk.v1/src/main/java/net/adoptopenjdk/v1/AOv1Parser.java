@@ -19,11 +19,11 @@ import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
+import com.io7m.jaffirm.core.Preconditions;
 import net.adoptopenjdk.spi.AOBinary;
 import net.adoptopenjdk.spi.AOParseException;
 import net.adoptopenjdk.spi.AORelease;
 import net.adoptopenjdk.spi.AOVariant;
-import com.io7m.jaffirm.core.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

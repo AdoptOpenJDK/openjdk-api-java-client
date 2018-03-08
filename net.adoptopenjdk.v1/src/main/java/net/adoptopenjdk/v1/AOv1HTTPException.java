@@ -28,6 +28,7 @@ public final class AOv1HTTPException extends AOException
   private final int code;
   private final String server_message;
   private final URI uri;
+  private final AOv1HTTPProblemReport report;
 
   /**
    * Construct an exception.
@@ -35,12 +36,14 @@ public final class AOv1HTTPException extends AOException
    * @param in_code           The HTTP error code
    * @param in_server_message The error message received from the server
    * @param in_uri            The URI
+   * @param in_report         The error report
    */
 
   public AOv1HTTPException(
     final int in_code,
     final String in_server_message,
-    final URI in_uri)
+    final URI in_uri,
+    final AOv1HTTPProblemReport in_report)
   {
     super(
       String.format(
@@ -48,9 +51,11 @@ public final class AOv1HTTPException extends AOException
         Objects.requireNonNull(in_uri, "uri"),
         Integer.valueOf(in_code),
         Objects.requireNonNull(in_server_message, "server_message")));
+
     this.code = in_code;
     this.server_message = in_server_message;
     this.uri = in_uri;
+    this.report = Objects.requireNonNull(in_report, "report");
   }
 
   /**
@@ -78,5 +83,14 @@ public final class AOv1HTTPException extends AOException
   public URI uri()
   {
     return this.uri;
+  }
+
+  /**
+   * @return The problem report returned by the server in the case of errors
+   */
+
+  public AOv1HTTPProblemReport report()
+  {
+    return this.report;
   }
 }

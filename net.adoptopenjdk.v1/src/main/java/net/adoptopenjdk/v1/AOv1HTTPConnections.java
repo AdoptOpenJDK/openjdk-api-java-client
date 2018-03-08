@@ -52,8 +52,37 @@ public final class AOv1HTTPConnections implements AOv1HTTPConnectionsType
   {
     final int code = connection.getResponseCode();
     if (code >= 400) {
-      throw new AOv1HTTPException(code, connection.getResponseMessage(), uri);
+      throw new AOv1HTTPException(
+        code,
+        connection.getResponseMessage(),
+        uri,
+        reportFor(connection));
     }
+  }
+
+  private static AOv1HTTPProblemReport reportFor(
+    final HttpURLConnection connection)
+  {
+    final String type = connection.getContentType();
+
+    try {
+      try (InputStream stream = connection.getErrorStream()) {
+        if (stream != null) {
+          return AOv1HTTPProblemReport.of(
+            type != null ? type : "application/octet-stream",
+            stream.readAllBytes());
+        }
+        return fallbackReport(type);
+      }
+    } catch (final IOException e) {
+      LOG.error("error reading problem report: ", e);
+      return fallbackReport(type);
+    }
+  }
+
+  private static AOv1HTTPProblemReport fallbackReport(final String type)
+  {
+    return AOv1HTTPProblemReport.of(type, new byte[0]);
   }
 
   private static void setHeaders(

@@ -12,23 +12,30 @@
  * limitations under the License.
  */
 
-import net.adoptopenjdk.spi.AOAPIVersionProviderType;
-import net.adoptopenjdk.v1.AOv1Requests;
+package net.adoptopenjdk.v1;
+
+import net.adoptopenjdk.spi.ImmutableStyleType;
+import org.immutables.value.Value;
 
 /**
- * Version 1.* API provider.
+ * An immutable problem report returned by some servers in the case of errors.
  */
 
-module net.adoptopenjdk.v1
+@ImmutableStyleType
+@Value.Immutable
+public interface AOv1HTTPProblemReportType
 {
-  requires static org.immutables.value;
+  /**
+   * @return The content type of the error report
+   */
 
-  requires com.io7m.jaffirm.core;
-  requires net.adoptopenjdk.spi;
-  requires com.fasterxml.jackson.core;
-  requires org.slf4j;
+  @Value.Parameter
+  String contentType();
 
-  exports net.adoptopenjdk.v1;
+  /**
+   * @return The data
+   */
 
-  provides AOAPIVersionProviderType with AOv1Requests.Provider;
+  @Value.Parameter
+  byte[] data();
 }
