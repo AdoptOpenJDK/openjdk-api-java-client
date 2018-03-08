@@ -92,7 +92,9 @@ public final class AOv1HTTPConnections implements AOv1HTTPConnectionsType
     for (final String name : headers.keySet()) {
       connection.setRequestProperty(name, headers.get(name));
     }
+
     connection.setRequestProperty("accept-version", "1.0.0");
+    connection.setRequestProperty("Accept", "*/*");
   }
 
   private static void checkURI(final URI uri)
