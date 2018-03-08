@@ -1,11 +1,10 @@
-AdoptOpenJDK-Java
 ===
 
-[![Build Status](https://img.shields.io/travis/io7m/AdoptOpenJDK-Java.svg?style=flat-square)](https://travis-ci.org/io7m/AdoptOpenJDK-Java)
-[![Maven Central](https://img.shields.io/maven-central/v/com.io7m.adoptopenjdk/com.io7m.adoptopenjdk.svg?style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.io7m.adoptopenjdk%22)
-[![Maven Central (snapshot)](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.io7m.adoptopenjdk/com.io7m.adoptopenjdk.svg?style=flat-square)](https://oss.sonatype.org/content/repositories/snapshots/com/io7m/adoptopenjdk/)
-[![Codacy Badge](https://img.shields.io/codacy/grade/565ef1e0d8404f6b9cd22ef71fc73e48.svg?style=flat-square)](https://www.codacy.com/app/github_79/AdoptOpenJDK-Java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=io7m/AdoptOpenJDK-Java&amp;utm_campaign=Badge_Grade)
-[![Codecov](https://img.shields.io/codecov/c/github/io7m/AdoptOpenJDK-Java.svg?style=flat-square)](https://codecov.io/gh/io7m/AdoptOpenJDK-Java)
+[![Build Status](https://img.shields.io/travis/AdoptOpenJDK/openjdk-api-java-client.svg?style=flat-square)](https://travis-ci.org/AdoptOpenJDK/openjdk-api-java-client)
+[![Maven Central](https://img.shields.io/maven-central/v/net.adoptopenjdk/net.adoptopenjdk.svg?style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22net.adoptopenjdk%22)
+[![Maven Central (snapshot)](https://img.shields.io/nexus/s/https/oss.sonatype.org/net.adoptopenjdk/net.adoptopenjdk.svg?style=flat-square)](https://oss.sonatype.org/content/repositories/snapshots/net/adoptopenjdk/)
+[![Codacy Badge](https://img.shields.io/codacy/grade/565ef1e0d8404f6b9cd22ef71fc73e48.svg?style=flat-square)](https://www.codacy.com/app/github_79/AdoptOpenJDK-Java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AdoptOpenJDK/openjdk-api-java-client&amp;utm_campaign=Badge_Grade)
+[![Codecov](https://img.shields.io/codecov/c/github/AdoptOpenJDK/openjdk-api-java-client.svg?style=flat-square)](https://codecov.io/gh/AdoptOpenJDK/openjdk-api-java-client)
 
 ![adoptopenjdk](./src/site/resources/adoptopenjdk.jpg?raw=true)
 
@@ -16,13 +15,13 @@ Use the following Maven dependencies:
 
 ```
 <dependency>
-  <groupId>com.io7m.adoptopenjdk</groupId>
-  <artifactId>com.io7m.adoptopenjdk.api</artifactId>
+  <groupId>net.adoptopenjdk</groupId>
+  <artifactId>net.adoptopenjdk.api</artifactId>
   <version><!-- Insert latest version --></version>
 </dependency>
 <dependency>
-  <groupId>com.io7m.adoptopenjdk</groupId>
-  <artifactId>com.io7m.adoptopenjdk.v1</artifactId>
+  <groupId>net.adoptopenjdk</groupId>
+  <artifactId>net.adoptopenjdk.v1</artifactId>
   <version><!-- Insert latest version --></version>
 </dependency>
 ```

@@ -12,57 +12,57 @@
     <version>2.0.0</version>
   </parent>
 
-  <groupId>com.io7m.adoptopenjdk</groupId>
-  <artifactId>com.io7m.adoptopenjdk</artifactId>
+  <groupId>net.adoptopenjdk</groupId>
+  <artifactId>net.adoptopenjdk</artifactId>
   <version>0.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>com.io7m.adoptopenjdk</name>
+  <name>net.adoptopenjdk</name>
   <description>Adopt OpenJDK API</description>
-  <url>http://github.com/io7m/adoptopenjdk</url>
+  <url>http://github.com/AdoptOpenJDK/openjdk-api-java-client</url>
 
   <modules>
-    <module>com.io7m.adoptopenjdk.checkstyle</module>
-    <module>com.io7m.adoptopenjdk.spi</module>
-    <module>com.io7m.adoptopenjdk.tests</module>
-    <module>com.io7m.adoptopenjdk.v1</module>
-    <module>com.io7m.adoptopenjdk.api</module>
+    <module>net.adoptopenjdk.checkstyle</module>
+    <module>net.adoptopenjdk.spi</module>
+    <module>net.adoptopenjdk.tests</module>
+    <module>net.adoptopenjdk.v1</module>
+    <module>net.adoptopenjdk.api</module>
   </modules>
 
   <properties>
-    <io7m.checkstyle.artifact>com.io7m.adoptopenjdk.checkstyle</io7m.checkstyle.artifact>
-    <io7m.checkstyle.path>/com/io7m/adoptopenjdk/checkstyle/checkstyle.xml</io7m.checkstyle.path>
+    <io7m.checkstyle.artifact>net.adoptopenjdk.checkstyle</io7m.checkstyle.artifact>
+    <io7m.checkstyle.path>/net/adoptopenjdk/checkstyle/checkstyle.xml</io7m.checkstyle.path>
     <io7m.api.previousVersion>0.0.1</io7m.api.previousVersion>
 
-    <com.io7m.adoptopenjdk.org.immutables.version>2.6.0-alpha1</com.io7m.adoptopenjdk.org.immutables.version>
+    <net.adoptopenjdk.org.immutables.version>2.6.0-alpha1</net.adoptopenjdk.org.immutables.version>
   </properties>
 
   <inceptionYear>2018</inceptionYear>
 
   <licenses>
     <license>
-      <name>ISC License</name>
-      <url>http://io7m.com/license/isc.txt</url>
+      <name>Apache 2.0 License</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
 
   <scm>
-    <url>https://github.com/io7m/adoptopenjdk</url>
-    <connection>scm:git:https://github.com/io7m/adoptopenjdk</connection>
-    <developerConnection>scm:git:https://github.com/io7m/adoptopenjdk</developerConnection>
+    <url>https://github.com/AdoptOpenJDK/openjdk-api-java-client</url>
+    <connection>scm:git:https://github.com/AdoptOpenJDK/openjdk-api-java-client</connection>
+    <developerConnection>scm:git:https://github.com/AdoptOpenJDK/openjdk-api-java-client</developerConnection>
   </scm>
 
   <developers>
     <developer>
       <id>io7m</id>
-      <name>io7m</name>
+      <name>Mark Raynsford</name>
       <email>code@io7m.com</email>
       <url>http://io7m.com</url>
     </developer>
   </developers>
 
   <issueManagement>
-    <url>http://github.com/io7m/adoptopenjdk/issues</url>
+    <url>http://github.com/AdoptOpenJDK/openjdk-api-java-client/issues</url>
     <system>GitHub Issues</system>
   </issueManagement>
 
@@ -70,7 +70,7 @@
     <site>
       <id>GitHub</id>
       <name>GitHub</name>
-      <url>http://io7m.github.io/adoptopenjdk</url>
+      <url>http://github.com/AdoptOpenJDK/openjdk-api-java-client</url>
     </site>
     <repository>
       <id>sonatype-nexus-staging</id>
@@ -84,7 +84,7 @@
 
   <ciManagement>
     <system>Travis CI</system>
-    <url>https://travis-ci.org/io7m/adoptopenjdk</url>
+    <url>https://travis-ci.org/AdoptOpenJDK/openjdk-api-java-client</url>
   </ciManagement>
 
   <prerequisites>
@@ -96,7 +96,7 @@
       <dependency>
         <groupId>org.immutables</groupId>
         <artifactId>value</artifactId>
-        <version>${com.io7m.adoptopenjdk.org.immutables.version}</version>
+        <version>${net.adoptopenjdk.org.immutables.version}</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
@@ -145,24 +145,8 @@
             <release>9</release>
           </configuration>
         </plugin>
-
-        <!-- KStructural Maven Plugin -->
-        <plugin>
-          <groupId>com.io7m.kstructural</groupId>
-          <artifactId>io7m-kstructural-maven-plugin</artifactId>
-          <version>0.3.1</version>
-        </plugin>
       </plugins>
     </pluginManagement>
-
-    <plugins>
-      <!-- Generate a site -->
-      <plugin>
-        <groupId>com.io7m.minisite</groupId>
-        <artifactId>com.io7m.minisite.maven_plugin</artifactId>
-        <inherited>false</inherited>
-      </plugin>
-    </plugins>
   </build>
 
 </project>
