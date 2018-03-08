@@ -105,11 +105,7 @@ public final class AOV1RequestsIntegrationTest
       LOG.info("exceeded rate limit on server: ", e);
       return;
     }
-    if (e.statusCode() == 521) {
-      LOG.info("server failure: ", e);
-      return;
-    }
-    if (e.statusCode() == 520) {
+    if (e.statusCode() >= 500) {
       LOG.info("server failure: ", e);
       return;
     }
