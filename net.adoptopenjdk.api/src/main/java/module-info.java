@@ -13,6 +13,7 @@
  */
 
 import net.adoptopenjdk.spi.AOAPIRequestsType;
+import net.adoptopenjdk.spi.AOAPIVersionProviderType;
 
 /**
  * AdoptOpenJDK API.
@@ -25,4 +26,5 @@ module net.adoptopenjdk.api
   exports net.adoptopenjdk.api;
 
   uses AOAPIRequestsType;
+  uses AOAPIVersionProviderType;
 }
