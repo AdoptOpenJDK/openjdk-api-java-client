@@ -39,6 +39,8 @@ public final class AOv1Requests implements AOv1RequestsType
 {
   private static final Logger LOG = LoggerFactory.getLogger(AOv1Requests.class);
 
+  private static final String HOSTNAME = "api.adoptopenjdk.net";
+
   private final AOv1HTTPConnectionsType connections;
   private final ResourceBundle messages;
   private final AOv1Parser parser;
@@ -102,9 +104,17 @@ public final class AOv1Requests implements AOv1RequestsType
     Objects.requireNonNull(connections, "connections");
 
     final Map<String, String> props = standardProperties();
+    final URI target =
+      URI.create(
+        new StringBuilder(64)
+          .append("https://")
+          .append(HOSTNAME)
+          .append("/")
+          .toString());
+
     try (AOv1HTTPConnectionType connection =
            connections.head(
-             URI.create("https://api.adoptopenjdk.net/"),
+             target,
              props)) {
       return rateLimitForConnection(connection);
     } catch (final IOException e) {
@@ -128,27 +138,35 @@ public final class AOv1Requests implements AOv1RequestsType
   {
     final Map<String, List<String>> headers = connection.headers();
 
+    final int remaining =
+      integerValuedKey(headers, "X-RateLimit-Remaining", Integer.MAX_VALUE);
+
     final int retry;
-    final int remaining;
-    if (headers.containsKey("X-RateLimit-Remaining")) {
-      remaining = Integer.valueOf(headers.get("X-RateLimit-Remaining").get(0)).intValue();
-      if (remaining == 0) {
-        if (headers.containsKey("Retry-After")) {
-          retry = Integer.valueOf(headers.get("Retry-After").get(0)).intValue();
-        } else {
-          LOG.warn("unable to determine retry time");
-          retry = 0;
-        }
-      } else {
-        retry = 3600;
-      }
+    if (remaining == 0) {
+      retry = integerValuedKey(headers, "Retry-After", 3600);
     } else {
-      LOG.warn("unable to determine remaining request limit");
-      remaining = Integer.MAX_VALUE;
       retry = 3600;
     }
 
     return new RateLimit(remaining, retry);
+  }
+
+  private static int integerValuedKey(
+    final Map<String, List<String>> headers,
+    final String key,
+    final int default_value)
+  {
+    try {
+      if (!headers.containsKey(key)) {
+        LOG.debug("no header {}", key);
+        return default_value;
+      }
+
+      return Integer.valueOf(headers.get(key).get(0)).intValue();
+    } catch (final NumberFormatException e) {
+      LOG.warn("unable to parse {}: ", key, e);
+      return default_value;
+    }
   }
 
   @Override
@@ -163,7 +181,13 @@ public final class AOv1Requests implements AOv1RequestsType
   {
     this.checkRateLimitRemaining();
 
-    final URI target = URI.create("https://api.adoptopenjdk.net/variants");
+    final URI target = URI.create(
+      new StringBuilder(64)
+        .append("https://")
+        .append(HOSTNAME)
+        .append("/variants")
+        .toString());
+
     try (AOv1HTTPConnectionType connection =
            this.connections.get(target, standardProperties())) {
 
@@ -185,7 +209,13 @@ public final class AOv1Requests implements AOv1RequestsType
     this.checkRateLimitRemaining();
 
     final URI target =
-      URI.create("https://api.adoptopenjdk.net/" + variant + "/releases");
+      URI.create(new StringBuilder(64)
+                   .append("https://")
+                   .append(HOSTNAME)
+                   .append("/")
+                   .append(variant)
+                   .append("/releases")
+                   .toString());
 
     try (AOv1HTTPConnectionType connection =
            this.connections.get(target, standardProperties())) {
@@ -208,7 +238,13 @@ public final class AOv1Requests implements AOv1RequestsType
     this.checkRateLimitRemaining();
 
     final URI target =
-      URI.create("https://api.adoptopenjdk.net/" + variant + "/nightly");
+      URI.create(new StringBuilder(64)
+                   .append("https://")
+                   .append(HOSTNAME)
+                   .append("/")
+                   .append(variant)
+                   .append("/nightly")
+                   .toString());
 
     try (AOv1HTTPConnectionType connection =
            this.connections.get(target, standardProperties())) {

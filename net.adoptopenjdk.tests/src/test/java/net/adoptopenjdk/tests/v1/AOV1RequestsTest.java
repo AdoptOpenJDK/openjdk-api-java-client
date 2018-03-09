@@ -45,6 +45,23 @@ public final class AOV1RequestsTest
   }
 
   @Test
+  public void testOpenNonsenseRateLimit()
+    throws AOException
+  {
+    final MockConnection connection_0 =
+      MockConnection.create(
+        Map.of("X-RateLimit-Remaining", "xyz",
+               "Retry-After", "3600"));
+
+    final MockConnections connections = new MockConnections();
+    connections.addConnection(connection_0);
+
+    final AOv1RequestsType requests = AOv1Requests.open(connections);
+    Assert.assertEquals((long) Integer.MAX_VALUE, (long) requests.rateLimitRemaining());
+    Assert.assertEquals(0L, (long) connections.queue().size());
+  }
+
+  @Test
   public void testOpen()
     throws AOException
   {
