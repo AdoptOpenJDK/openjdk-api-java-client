@@ -39,7 +39,7 @@ public final class AOv1Requests implements AOv1RequestsType
 {
   private static final Logger LOG = LoggerFactory.getLogger(AOv1Requests.class);
 
-  private static final String HOSTNAME = "api.adoptopenjdk.net";
+  private static final String DEFAULT_HOSTNAME = "api.adoptopenjdk.net";
 
   private final AOv1HTTPConnectionsType connections;
   private final ResourceBundle messages;
@@ -73,7 +73,7 @@ public final class AOv1Requests implements AOv1RequestsType
   public static AOv1RequestsType open()
     throws AOException
   {
-    return open(new AOv1HTTPConnections());
+    return open(AOv1HTTPConnections.create());
   }
 
   /**
@@ -108,14 +108,11 @@ public final class AOv1Requests implements AOv1RequestsType
       URI.create(
         new StringBuilder(64)
           .append("https://")
-          .append(HOSTNAME)
+          .append(serverAddress())
           .append("/")
           .toString());
 
-    try (AOv1HTTPConnectionType connection =
-           connections.head(
-             target,
-             props)) {
+    try (AOv1HTTPConnectionType connection = connections.head(target, props)) {
       return rateLimitForConnection(connection);
     } catch (final IOException e) {
       throw new AOException(e.getMessage(), e);
@@ -124,7 +121,9 @@ public final class AOv1Requests implements AOv1RequestsType
 
   private static Map<String, String> standardProperties()
   {
-    return Map.of("User-Agent", userAgent());
+    return Map.of(
+      "User-Agent", userAgent(),
+      "Host", serverHostName());
   }
 
   private static String userAgent()
@@ -184,7 +183,7 @@ public final class AOv1Requests implements AOv1RequestsType
     final URI target = URI.create(
       new StringBuilder(64)
         .append("https://")
-        .append(HOSTNAME)
+        .append(serverAddress())
         .append("/variants")
         .toString());
 
@@ -211,7 +210,7 @@ public final class AOv1Requests implements AOv1RequestsType
     final URI target =
       URI.create(new StringBuilder(64)
                    .append("https://")
-                   .append(HOSTNAME)
+                   .append(serverAddress())
                    .append("/")
                    .append(variant)
                    .append("/releases")
@@ -240,7 +239,7 @@ public final class AOv1Requests implements AOv1RequestsType
     final URI target =
       URI.create(new StringBuilder(64)
                    .append("https://")
-                   .append(HOSTNAME)
+                   .append(serverAddress())
                    .append("/")
                    .append(variant)
                    .append("/nightly")
@@ -256,6 +255,18 @@ public final class AOv1Requests implements AOv1RequestsType
     } catch (final IOException e) {
       throw new AOException(e.getMessage(), e);
     }
+  }
+
+  private static String serverAddress()
+  {
+    return System.getProperty(
+      "net.adoptopenjdk.server_address", DEFAULT_HOSTNAME);
+  }
+
+  private static String serverHostName()
+  {
+    return System.getProperty(
+      "net.adoptopenjdk.server_host_name", DEFAULT_HOSTNAME);
   }
 
   private void checkRateLimitRemaining()

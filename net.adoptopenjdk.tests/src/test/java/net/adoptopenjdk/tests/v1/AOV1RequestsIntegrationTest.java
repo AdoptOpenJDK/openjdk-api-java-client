@@ -17,6 +17,7 @@ package net.adoptopenjdk.tests.v1;
 import net.adoptopenjdk.spi.AOException;
 import net.adoptopenjdk.spi.AORelease;
 import net.adoptopenjdk.spi.AOVariant;
+import net.adoptopenjdk.v1.AOv1HTTPConnections;
 import net.adoptopenjdk.v1.AOv1HTTPException;
 import net.adoptopenjdk.v1.AOv1HTTPProblemReport;
 import net.adoptopenjdk.v1.AOv1Requests;
@@ -26,6 +27,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -55,7 +58,10 @@ public final class AOV1RequestsIntegrationTest
     throws AOException
   {
     try {
-      final AOv1RequestsType requests = AOv1Requests.open();
+      final AOv1RequestsType requests =
+        AOv1Requests.open(AOv1HTTPConnections.createWithVerifiers(
+          LaxHostnameVerifier::new));
+
       final List<AORelease> releases = requests.releasesForVariant("openjdk8");
       Assert.assertTrue(
         "Must have at least one release parsed",
@@ -122,6 +128,22 @@ public final class AOV1RequestsIntegrationTest
       Files.write(path, report.data());
     } catch (final IOException e) {
       LOG.error("could not save error report: ", e);
+    }
+  }
+
+  private static final class LaxHostnameVerifier implements HostnameVerifier
+  {
+    LaxHostnameVerifier()
+    {
+
+    }
+
+    @Override
+    public boolean verify(
+      final String hostname,
+      final SSLSession session)
+    {
+      return true;
     }
   }
 }

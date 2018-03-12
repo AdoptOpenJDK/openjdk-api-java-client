@@ -18,6 +18,8 @@ import net.adoptopenjdk.spi.AOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -26,6 +28,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * A provider of HTTP connections.
@@ -36,13 +39,46 @@ public final class AOv1HTTPConnections implements AOv1HTTPConnectionsType
   private static final Logger LOG =
     LoggerFactory.getLogger(AOv1HTTPConnections.class);
 
+  private final Supplier<HostnameVerifier> verifiers;
+
   /**
    * Construct a new provider.
+   *
+   * @param in_verifiers A supplier of hostname verifiers
    */
 
-  public AOv1HTTPConnections()
+  private AOv1HTTPConnections(
+    final Supplier<HostnameVerifier> in_verifiers)
   {
+    this.verifiers =
+      Objects.requireNonNull(in_verifiers, "verifiers");
+  }
 
+  /**
+   * Construct a new provider.
+   *
+   * @return A new connection provider
+   */
+
+  public static AOv1HTTPConnectionsType create()
+  {
+    return new AOv1HTTPConnections(
+      HttpsURLConnection::getDefaultHostnameVerifier);
+  }
+
+  /**
+   * Construct a new provider.
+   *
+   * @param verifiers A supplier of hostname verifiers
+   *
+   * @return A new connection provider
+   */
+
+  public static AOv1HTTPConnectionsType createWithVerifiers(
+    final Supplier<HostnameVerifier> verifiers)
+  {
+    return new AOv1HTTPConnections(
+      Objects.requireNonNull(verifiers, "verifiers"));
   }
 
   private static void checkResponseCode(
@@ -122,6 +158,7 @@ public final class AOv1HTTPConnections implements AOv1HTTPConnectionsType
       final URL url = uri.toURL();
       final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
       setHeaders(headers, connection);
+      setHostnameVerifierIfNecessary(this.verifiers.get(), connection);
 
       connection.setInstanceFollowRedirects(true);
       connection.setRequestMethod("HEAD");
@@ -131,6 +168,16 @@ public final class AOv1HTTPConnections implements AOv1HTTPConnectionsType
       return new Connection(connection);
     } catch (final IOException e) {
       throw new AOException(e.getMessage(), e);
+    }
+  }
+
+  private static void setHostnameVerifierIfNecessary(
+    final HostnameVerifier verifier,
+    final HttpURLConnection connection)
+  {
+    if (connection instanceof HttpsURLConnection) {
+      final HttpsURLConnection connection_s = (HttpsURLConnection) connection;
+      connection_s.setHostnameVerifier(verifier);
     }
   }
 
@@ -151,6 +198,7 @@ public final class AOv1HTTPConnections implements AOv1HTTPConnectionsType
       final URL url = uri.toURL();
       final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
       setHeaders(headers, connection);
+      setHostnameVerifierIfNecessary(this.verifiers.get(), connection);
 
       connection.setInstanceFollowRedirects(true);
       connection.setRequestMethod("GET");

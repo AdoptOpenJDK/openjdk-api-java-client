@@ -17,6 +17,7 @@ package net.adoptopenjdk.tests.v1;
 import net.adoptopenjdk.v1.AOv1HTTPConnectionType;
 import net.adoptopenjdk.v1.AOv1HTTPConnectionsType;
 
+import javax.net.ssl.HostnameVerifier;
 import java.net.URI;
 import java.util.ArrayDeque;
 import java.util.Map;
