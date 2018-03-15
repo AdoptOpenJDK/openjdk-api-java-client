@@ -40,6 +40,7 @@ public final class AOv1Requests implements AOv1RequestsType
   private static final Logger LOG = LoggerFactory.getLogger(AOv1Requests.class);
 
   private static final String DEFAULT_HOSTNAME = "api.adoptopenjdk.net";
+  private static final String DEFAULT_SERVER_SCHEME = "https";
 
   private final AOv1HTTPConnectionsType connections;
   private final ResourceBundle messages;
@@ -107,7 +108,8 @@ public final class AOv1Requests implements AOv1RequestsType
     final URI target =
       URI.create(
         new StringBuilder(64)
-          .append("https://")
+          .append(serverScheme())
+          .append("://")
           .append(serverAddress())
           .append("/")
           .toString());
@@ -182,7 +184,8 @@ public final class AOv1Requests implements AOv1RequestsType
 
     final URI target = URI.create(
       new StringBuilder(64)
-        .append("https://")
+        .append(serverScheme())
+        .append("://")
         .append(serverAddress())
         .append("/variants")
         .toString());
@@ -209,7 +212,8 @@ public final class AOv1Requests implements AOv1RequestsType
 
     final URI target =
       URI.create(new StringBuilder(64)
-                   .append("https://")
+                   .append(serverScheme())
+                   .append("://")
                    .append(serverAddress())
                    .append("/")
                    .append(variant)
@@ -238,7 +242,8 @@ public final class AOv1Requests implements AOv1RequestsType
 
     final URI target =
       URI.create(new StringBuilder(64)
-                   .append("https://")
+                   .append(serverScheme())
+                   .append("://")
                    .append(serverAddress())
                    .append("/")
                    .append(variant)
@@ -255,6 +260,12 @@ public final class AOv1Requests implements AOv1RequestsType
     } catch (final IOException e) {
       throw new AOException(e.getMessage(), e);
     }
+  }
+
+  private static String serverScheme()
+  {
+    return System.getProperty(
+      "net.adoptopenjdk.server_scheme", DEFAULT_SERVER_SCHEME);
   }
 
   private static String serverAddress()
