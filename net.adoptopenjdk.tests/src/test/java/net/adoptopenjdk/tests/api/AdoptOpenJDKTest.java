@@ -17,7 +17,14 @@ package net.adoptopenjdk.tests.api;
 import net.adoptopenjdk.api.AdoptOpenJDK;
 import net.adoptopenjdk.api.AdoptOpenJDKRequestsType;
 import net.adoptopenjdk.spi.AOException;
+import net.adoptopenjdk.spi.AORelease;
+import net.adoptopenjdk.spi.AOVariant;
+import net.adoptopenjdk.tests.v1.AOv1ParserTest;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public final class AdoptOpenJDKTest
 {

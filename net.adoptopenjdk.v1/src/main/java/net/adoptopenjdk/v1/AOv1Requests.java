@@ -111,7 +111,7 @@ public final class AOv1Requests implements AOv1RequestsType
           .append(serverScheme())
           .append("://")
           .append(serverAddress())
-          .append("/")
+          .append("/v1/")
           .toString());
 
     try (AOv1HTTPConnectionType connection = connections.head(target, props)) {
@@ -187,7 +187,7 @@ public final class AOv1Requests implements AOv1RequestsType
         .append(serverScheme())
         .append("://")
         .append(serverAddress())
-        .append("/variants")
+        .append("/v1/variants")
         .toString());
 
     try (AOv1HTTPConnectionType connection =
@@ -215,7 +215,7 @@ public final class AOv1Requests implements AOv1RequestsType
                    .append(serverScheme())
                    .append("://")
                    .append(serverAddress())
-                   .append("/")
+                   .append("/v1/")
                    .append(variant)
                    .append("/releases")
                    .toString());
@@ -245,7 +245,7 @@ public final class AOv1Requests implements AOv1RequestsType
                    .append(serverScheme())
                    .append("://")
                    .append(serverAddress())
-                   .append("/")
+                   .append("/v1/")
                    .append(variant)
                    .append("/nightly")
                    .toString());
