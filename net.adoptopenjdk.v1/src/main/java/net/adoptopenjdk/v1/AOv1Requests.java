@@ -58,7 +58,6 @@ public final class AOv1Requests implements AOv1RequestsType
       Objects.requireNonNull(in_connections, "connections");
     this.rate_limit =
       Objects.requireNonNull(in_rate_limit, "rate limit");
-
     this.messages =
       ResourceBundle.getBundle("net/adoptopenjdk/v1/messages");
   }

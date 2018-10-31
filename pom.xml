@@ -27,6 +27,7 @@
     <module>net.adoptopenjdk.tests</module>
     <module>net.adoptopenjdk.v1</module>
     <module>net.adoptopenjdk.api</module>
+    <module>net.adoptopenjdk.v2</module>
   </modules>
 
   <properties>

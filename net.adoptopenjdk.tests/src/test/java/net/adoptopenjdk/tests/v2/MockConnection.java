@@ -12,9 +12,9 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.tests.v1;
+package net.adoptopenjdk.tests.v2;
 
-import net.adoptopenjdk.v1.AOv1HTTPConnectionType;
+import net.adoptopenjdk.v2.AOv2HTTPConnectionType;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public final class MockConnection implements AOv1HTTPConnectionType
+public final class MockConnection implements AOv2HTTPConnectionType
 {
   private final URI uri;
   private final Map<String, List<String>> headers;

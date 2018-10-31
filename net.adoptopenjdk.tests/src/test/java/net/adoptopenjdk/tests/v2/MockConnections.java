@@ -12,19 +12,17 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.tests.v1;
+package net.adoptopenjdk.tests.v2;
 
-import net.adoptopenjdk.v1.AOv1HTTPConnectionType;
-import net.adoptopenjdk.v1.AOv1HTTPConnectionsType;
+import net.adoptopenjdk.v2.AOv2HTTPConnectionType;
 import net.adoptopenjdk.v2.AOv2HTTPConnectionsType;
 
-import javax.net.ssl.HostnameVerifier;
 import java.net.URI;
 import java.util.ArrayDeque;
 import java.util.Map;
 import java.util.Queue;
 
-public final class MockConnections implements AOv1HTTPConnectionsType
+public final class MockConnections implements AOv2HTTPConnectionsType
 {
   private final Queue<MockConnection> queue;
 
@@ -39,7 +37,7 @@ public final class MockConnections implements AOv1HTTPConnectionsType
   }
 
   @Override
-  public AOv1HTTPConnectionType head(
+  public AOv2HTTPConnectionType head(
     final URI uri,
     final Map<String, String> headers)
   {
@@ -47,7 +45,7 @@ public final class MockConnections implements AOv1HTTPConnectionsType
   }
 
   @Override
-  public AOv1HTTPConnectionType get(
+  public AOv2HTTPConnectionType get(
     final URI uri,
     final Map<String, String> headers)
   {
