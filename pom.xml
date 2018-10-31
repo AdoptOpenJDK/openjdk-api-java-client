@@ -34,7 +34,7 @@
     <io7m.checkstyle.path>/net/adoptopenjdk/checkstyle/checkstyle.xml</io7m.checkstyle.path>
     <io7m.api.previousVersion>0.0.1</io7m.api.previousVersion>
 
-    <net.adoptopenjdk.org.immutables.version>2.6.0-alpha1</net.adoptopenjdk.org.immutables.version>
+    <net.adoptopenjdk.org.immutables.version>2.7.1</net.adoptopenjdk.org.immutables.version>
   </properties>
 
   <inceptionYear>2018</inceptionYear>

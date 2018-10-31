@@ -35,6 +35,7 @@ import java.lang.annotation.Target;
   typeModifiable = "*Mutable",
   builder = "builder",
   build = "build",
+  allowedClasspathAnnotations = Override.class,
   visibility = Value.Style.ImplementationVisibility.PUBLIC,
   defaults = @Value.Immutable(copy = false))
 public @interface ImmutableStyleType
