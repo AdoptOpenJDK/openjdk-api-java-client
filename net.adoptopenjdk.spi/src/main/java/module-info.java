@@ -19,6 +19,7 @@
 module net.adoptopenjdk.spi
 {
   requires static org.immutables.value;
+  requires static org.osgi.annotation.bundle;
 
   exports net.adoptopenjdk.spi;
 }

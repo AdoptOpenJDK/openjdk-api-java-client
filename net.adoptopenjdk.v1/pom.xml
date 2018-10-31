@@ -13,7 +13,7 @@
   </parent>
 
   <artifactId>net.adoptopenjdk.v1</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
 
   <name>net.adoptopenjdk.v1</name>
   <description>Adopt OpenJDK API (API 1.* provider)</description>
@@ -31,6 +31,12 @@
       <artifactId>value</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <dependency>
       <groupId>com.io7m.jaffirm</groupId>
       <artifactId>com.io7m.jaffirm.core</artifactId>
@@ -65,20 +71,6 @@
               <version>${net.adoptopenjdk.org.immutables.version}</version>
             </dependency>
           </annotationProcessorPaths>
-        </configuration>
-      </plugin>
-
-      <!-- Produce OSGi bundle -->
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Export-Package>
-              net.adoptopenjdk.v1
-            </Export-Package>
-          </instructions>
         </configuration>
       </plugin>
     </plugins>

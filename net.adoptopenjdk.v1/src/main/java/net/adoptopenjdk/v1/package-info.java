@@ -16,4 +16,5 @@
  * Version 1.* API provider.
  */
 
+@org.osgi.annotation.bundle.Export
 package net.adoptopenjdk.v1;

@@ -16,5 +16,6 @@
  * AdoptOpenJDK API.
  */
 
+@org.osgi.annotation.bundle.Export
 package net.adoptopenjdk.api;
 

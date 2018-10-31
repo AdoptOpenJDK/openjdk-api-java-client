@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
     <artifactId>com.io7m.primogenitor</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0-beta0016</version>
   </parent>
 
   <groupId>net.adoptopenjdk</groupId>
@@ -30,11 +30,14 @@
   </modules>
 
   <properties>
+    <io7m.checkstyle.groupId>${project.groupId}</io7m.checkstyle.groupId>
     <io7m.checkstyle.artifact>net.adoptopenjdk.checkstyle</io7m.checkstyle.artifact>
+    <io7m.checkstyle.version>${project.version}</io7m.checkstyle.version>
     <io7m.checkstyle.path>/net/adoptopenjdk/checkstyle/checkstyle.xml</io7m.checkstyle.path>
     <io7m.api.previousVersion>0.0.1</io7m.api.previousVersion>
-
     <net.adoptopenjdk.org.immutables.version>2.7.1</net.adoptopenjdk.org.immutables.version>
+
+    <mdep.analyze.skip>true</mdep.analyze.skip>
   </properties>
 
   <inceptionYear>2018</inceptionYear>
@@ -118,11 +121,16 @@
         <artifactId>com.io7m.jaffirm.core</artifactId>
         <version>2.0.0</version>
       </dependency>
+      <dependency>
+        <groupId>org.osgi</groupId>
+        <artifactId>org.osgi.annotation.bundle</artifactId>
+        <version>1.0.0</version>
+      </dependency>
 
       <dependency>
         <groupId>nl.jqno.equalsverifier</groupId>
         <artifactId>equalsverifier</artifactId>
-        <version>2.4.3</version>
+        <version>3.0.1</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>
@@ -135,14 +143,14 @@
   <build>
     <pluginManagement>
       <plugins>
-        <!-- Require JDK >= 9 -->
+        <!-- Require JDK >= 11 -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
-            <source>9</source>
-            <target>9</target>
-            <release>9</release>
+            <source>11</source>
+            <target>11</target>
+            <release>11</release>
           </configuration>
         </plugin>
       </plugins>

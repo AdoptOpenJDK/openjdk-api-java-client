@@ -22,6 +22,7 @@ import net.adoptopenjdk.spi.AOAPIVersionProviderType;
 module net.adoptopenjdk.api
 {
   requires transitive net.adoptopenjdk.spi;
+  requires static org.osgi.annotation.bundle;
 
   exports net.adoptopenjdk.api;
 

@@ -16,5 +16,6 @@
  * Core types and functions.
  */
 
+@org.osgi.annotation.bundle.Export
 package net.adoptopenjdk.spi;
 

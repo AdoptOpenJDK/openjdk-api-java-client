@@ -22,6 +22,7 @@ import net.adoptopenjdk.v1.AOv1Requests;
 module net.adoptopenjdk.v1
 {
   requires static org.immutables.value;
+  requires static org.osgi.annotation.bundle;
 
   requires com.io7m.jaffirm.core;
   requires net.adoptopenjdk.spi;

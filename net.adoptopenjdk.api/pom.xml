@@ -13,7 +13,7 @@
   </parent>
 
   <artifactId>net.adoptopenjdk.api</artifactId>
-  <packaging>bundle</packaging>
+  <packaging>jar</packaging>
 
   <name>net.adoptopenjdk.api</name>
   <description>Adopt OpenJDK API (API)</description>
@@ -25,6 +25,12 @@
       <artifactId>net.adoptopenjdk.spi</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -33,20 +39,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-
-      <!-- Produce OSGi bundle -->
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Export-Package>
-              net.adoptopenjdk.api
-            </Export-Package>
-          </instructions>
-        </configuration>
       </plugin>
     </plugins>
   </build>
