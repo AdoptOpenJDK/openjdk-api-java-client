@@ -128,8 +128,12 @@ public final class AOv1Parser
             break;
           }
 
-          this.requireOneOf(uri, parser, next, START_ARRAY);
-          this.parseReleasesArray(uri, parser, releases);
+          this.requireOneOf(uri, parser, next, START_ARRAY, START_OBJECT);
+          if (next == START_ARRAY) {
+            this.parseReleasesArray(uri, parser, releases);
+          } else {
+            releases.add(this.parseRelease(uri, parser));
+          }
         }
       }
 
