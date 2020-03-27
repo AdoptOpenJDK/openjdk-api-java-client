@@ -167,6 +167,13 @@
             <source>11</source>
             <target>11</target>
             <release>11</release>
+            <annotationProcessorPaths>
+              <dependency>
+                <groupId>org.immutables</groupId>
+                <artifactId>value</artifactId>
+                <version>${net.adoptopenjdk.org.immutables.version}</version>
+              </dependency>
+            </annotationProcessorPaths>
           </configuration>
         </plugin>
       </plugins>
