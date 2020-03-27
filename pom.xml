@@ -9,7 +9,7 @@
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
     <artifactId>com.io7m.primogenitor</artifactId>
-    <version>3.0.0-beta0016</version>
+    <version>3.5.0</version>
   </parent>
 
   <groupId>net.adoptopenjdk</groupId>
@@ -22,11 +22,6 @@
   <url>http://github.com/AdoptOpenJDK/openjdk-api-java-client</url>
 
   <modules>
-    <module>net.adoptopenjdk.checkstyle</module>
-    <module>net.adoptopenjdk.spi</module>
-    <module>net.adoptopenjdk.tests</module>
-    <module>net.adoptopenjdk.v1</module>
-    <module>net.adoptopenjdk.api</module>
   </modules>
 
   <properties>
