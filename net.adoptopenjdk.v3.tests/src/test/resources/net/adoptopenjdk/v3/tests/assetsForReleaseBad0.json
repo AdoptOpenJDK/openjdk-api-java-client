@@ -1,0 +1,42 @@
+[
+  {
+    "binaries": [
+      {
+        "architecture": "ppc64le",
+        "download_count": 481,
+        "heap_size": "normal",
+        "image_type": "jdk",
+        "jvm_impl": "openj9",
+        "os": "linux",
+        "package": {
+          "checksum": "942436d908aea973a661df080e32ea88a3819b4d50b95d502c140fb0a0e43fdb",
+          "checksum_link": "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.6%2B10_openj9-0.18.1/OpenJDK11U-jdk_ppc64le_linux_openj9_11.0.6_10_openj9-0.18.1.tar.gz.sha256.txt",
+          "download_count": 481,
+          "link": "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.6%2B10_openj9-0.18.1/OpenJDK11U-jdk_ppc64le_linux_openj9_11.0.6_10_openj9-0.18.1.tar.gz",
+          "name": "OpenJDK11U-jdk_ppc64le_linux_openj9_11.0.6_10_openj9-0.18.1.tar.gz",
+          "size": 201817609
+        },
+        "project": "jdk",
+        "scm_ref": "openj9-0.18.1",
+        "updated_at": "2020-01-23T14:41:37Z"
+      }
+    ],
+    "download_count": 58565,
+    "id": "MDc6UmVsZWFzZTIzMDczOTQ0",
+    "release_link": "https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/tag/jdk-11.0.6%2B10_openj9-0.18.1",
+    "release_name": "jdk-11.0.6+10_openj9-0.18.1",
+    "release_type": "ga",
+    "timestamp": "2020-01-23T14:41:18Z",
+    "updated_at": "2020-01-23T14:41:18Z",
+    "vendor": "adoptopenjdk",
+    "version_data": {
+      "adopt_build_number": 1,
+      "build": 10,
+      "major": 11,
+      "minor": 0,
+      "openjdk_version": "11.0.6+10",
+      "security": 6,
+      "semver": "11.0.6+10.1"
+    }
+  }
+]
