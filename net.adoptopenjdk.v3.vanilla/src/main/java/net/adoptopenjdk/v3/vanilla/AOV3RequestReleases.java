@@ -16,9 +16,9 @@ package net.adoptopenjdk.v3.vanilla;
 
 import net.adoptopenjdk.v3.api.AOV3AvailableReleases;
 import net.adoptopenjdk.v3.api.AOV3Error;
+import net.adoptopenjdk.v3.api.AOV3Exception;
 import net.adoptopenjdk.v3.api.AOV3RequestReleasesType;
 
-import java.io.IOException;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -39,7 +39,7 @@ final class AOV3RequestReleases implements AOV3RequestReleasesType
 
   @Override
   public AOV3AvailableReleases execute()
-    throws IOException, InterruptedException
+    throws AOV3Exception, InterruptedException
   {
     final var uriBuilder = new StringBuilder(128);
     uriBuilder.append(this.client.baseURI());

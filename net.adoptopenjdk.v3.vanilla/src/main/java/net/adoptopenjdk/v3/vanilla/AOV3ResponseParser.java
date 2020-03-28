@@ -20,6 +20,7 @@ import net.adoptopenjdk.v3.api.AOV3Architecture;
 import net.adoptopenjdk.v3.api.AOV3AvailableReleases;
 import net.adoptopenjdk.v3.api.AOV3Binary;
 import net.adoptopenjdk.v3.api.AOV3Error;
+import net.adoptopenjdk.v3.api.AOV3ExceptionParseFailed;
 import net.adoptopenjdk.v3.api.AOV3HeapSize;
 import net.adoptopenjdk.v3.api.AOV3ImageKind;
 import net.adoptopenjdk.v3.api.AOV3Installer;
@@ -292,42 +293,54 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
 
   @Override
   public AOV3AvailableReleases parseAvailableReleases()
-    throws IOException
+    throws AOV3ExceptionParseFailed
   {
-    final AOV3AST.AOV3AvailableReleasesJSON ast =
-      this.objectMapper.readerFor(AOV3AST.AOV3AvailableReleasesJSON.class)
-        .readValue(this.stream);
+    try {
+      final AOV3AST.AOV3AvailableReleasesJSON ast =
+        this.objectMapper.readerFor(AOV3AST.AOV3AvailableReleasesJSON.class)
+          .readValue(this.stream);
 
-    return AOV3AvailableReleases.builder()
-      .addAllAvailableLTSReleases(ast.availableLTSReleases)
-      .addAllAvailableReleases(ast.availableReleases)
-      .setMostRecentFeatureRelease(ast.mostRecentFeatureRelease)
-      .setMostRecentLTSRelease(ast.mostRecentLTS)
-      .build();
+      return AOV3AvailableReleases.builder()
+        .addAllAvailableLTSReleases(ast.availableLTSReleases)
+        .addAllAvailableReleases(ast.availableReleases)
+        .setMostRecentFeatureRelease(ast.mostRecentFeatureRelease)
+        .setMostRecentLTSRelease(ast.mostRecentLTS)
+        .build();
+    } catch (final IOException e) {
+      throw new AOV3ExceptionParseFailed(e);
+    }
   }
 
   @Override
   public List<String> parseReleaseNames()
-    throws IOException
+    throws AOV3ExceptionParseFailed
   {
-    final AOV3AST.AOV3ReleaseNamesJSON ast =
-      this.objectMapper.readerFor(AOV3AST.AOV3ReleaseNamesJSON.class)
-        .readValue(this.stream);
+    try {
+      final AOV3AST.AOV3ReleaseNamesJSON ast =
+        this.objectMapper.readerFor(AOV3AST.AOV3ReleaseNamesJSON.class)
+          .readValue(this.stream);
 
-    return List.copyOf(ast.releases);
+      return List.copyOf(ast.releases);
+    } catch (final IOException e) {
+      throw new AOV3ExceptionParseFailed(e);
+    }
   }
 
   @Override
   public List<AOV3VersionData> parseReleaseVersions()
-    throws IOException
+    throws AOV3ExceptionParseFailed
   {
-    final AOV3AST.AOV3ReleaseVersionsJSON ast =
-      this.objectMapper.readerFor(AOV3AST.AOV3ReleaseVersionsJSON.class)
-        .readValue(this.stream);
+    try {
+      final AOV3AST.AOV3ReleaseVersionsJSON ast =
+        this.objectMapper.readerFor(AOV3AST.AOV3ReleaseVersionsJSON.class)
+          .readValue(this.stream);
 
-    return ast.versions.stream()
-      .flatMap(this::tryToVersionData)
-      .collect(Collectors.toList());
+      return ast.versions.stream()
+        .flatMap(this::tryToVersionData)
+        .collect(Collectors.toList());
+    } catch (final IOException e) {
+      throw new AOV3ExceptionParseFailed(e);
+    }
   }
 
   private Stream<? extends AOV3VersionData> tryToVersionData(
@@ -351,16 +364,20 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
 
   @Override
   public List<AOV3Release> parseAssetsForRelease()
-    throws IOException
+    throws AOV3ExceptionParseFailed
   {
-    final List<AOV3AST.AOV3ReleaseJSON> ast =
-      this.objectMapper.readerFor(new TypeReference<List<AOV3AST.AOV3ReleaseJSON>>()
-      {
-      }).readValue(this.stream);
+    try {
+      final List<AOV3AST.AOV3ReleaseJSON> ast =
+        this.objectMapper.readerFor(new TypeReference<List<AOV3AST.AOV3ReleaseJSON>>()
+        {
+        }).readValue(this.stream);
 
-    return ast.stream()
-      .flatMap(this::tryToRelease)
-      .collect(Collectors.toList());
+      return ast.stream()
+        .flatMap(this::tryToRelease)
+        .collect(Collectors.toList());
+    } catch (final IOException e) {
+      throw new AOV3ExceptionParseFailed(e);
+    }
   }
 
   private Stream<? extends AOV3Release> tryToRelease(

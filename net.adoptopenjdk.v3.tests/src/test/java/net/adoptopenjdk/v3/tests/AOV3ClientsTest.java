@@ -15,6 +15,7 @@
 package net.adoptopenjdk.v3.tests;
 
 import net.adoptopenjdk.v3.api.AOV3Error;
+import net.adoptopenjdk.v3.api.AOV3ExceptionHTTPRequestFailed;
 import net.adoptopenjdk.v3.api.AOV3ReleaseKind;
 import net.adoptopenjdk.v3.vanilla.AOV3Clients;
 import net.adoptopenjdk.v3.vanilla.AOV3Messages;
@@ -95,7 +96,7 @@ public final class AOV3ClientsTest
 
     try (var client = clients.createClient()) {
       final var exception =
-        Assertions.assertThrows(IOException.class, () -> {
+        Assertions.assertThrows(AOV3ExceptionHTTPRequestFailed.class, () -> {
           client.assetsForRelease(
             this::logError,
             BigInteger.ZERO,
@@ -113,7 +114,14 @@ public final class AOV3ClientsTest
           ).execute();
         });
 
-      Assertions.assertTrue(exception.getMessage().contains("500"));
+      Assertions.assertEquals(
+        500,
+        exception.statusCode()
+      );
+      Assertions.assertEquals(
+        "urn:test",
+        exception.uri().toString()
+      );
     }
   }
 }

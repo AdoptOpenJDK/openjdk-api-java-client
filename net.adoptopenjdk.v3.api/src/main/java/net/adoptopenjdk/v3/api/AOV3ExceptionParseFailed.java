@@ -15,23 +15,20 @@
 package net.adoptopenjdk.v3.api;
 
 /**
- * An executable request. Requests can be created once and re-executed an
- * arbitrary number of times.
- *
- * @param <T> The type of returned values
+ * An exception caused by a parse error.
  */
 
-public interface AOV3RequestType<T>
+public final class AOV3ExceptionParseFailed extends AOV3Exception
 {
   /**
-   * Execute the request, returning the results received.
+   * Construct an exception.
    *
-   * @return The received data
-   *
-   * @throws AOV3Exception        On errors
-   * @throws InterruptedException If the thread hosting the operation was interrupted
+   * @param cause The cause of the exception
    */
 
-  T execute()
-    throws AOV3Exception, InterruptedException;
+  public AOV3ExceptionParseFailed(
+    final Throwable cause)
+  {
+    super(cause);
+  }
 }

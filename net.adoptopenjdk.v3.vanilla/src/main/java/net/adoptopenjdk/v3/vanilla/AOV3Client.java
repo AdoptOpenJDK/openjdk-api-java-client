@@ -17,6 +17,9 @@ package net.adoptopenjdk.v3.vanilla;
 import net.adoptopenjdk.v3.api.AOV3Architecture;
 import net.adoptopenjdk.v3.api.AOV3ClientType;
 import net.adoptopenjdk.v3.api.AOV3Error;
+import net.adoptopenjdk.v3.api.AOV3Exception;
+import net.adoptopenjdk.v3.api.AOV3ExceptionHTTPRequestFailed;
+import net.adoptopenjdk.v3.api.AOV3ExceptionHTTPRequestIOFailed;
 import net.adoptopenjdk.v3.api.AOV3HeapSize;
 import net.adoptopenjdk.v3.api.AOV3ImageKind;
 import net.adoptopenjdk.v3.api.AOV3JVMImplementation;
@@ -215,22 +218,29 @@ final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
   public AOV3ResponseParserType parserForURI(
     final Consumer<AOV3Error> errorReceiver,
     final URI sourceURI)
-    throws IOException, InterruptedException
+    throws AOV3Exception, InterruptedException
   {
     Objects.requireNonNull(errorReceiver, "errorReceiver");
     Objects.requireNonNull(sourceURI, "sourceURI");
 
-    final var response = this.send(sourceURI);
-    return this.parsers.createParser(
-      errorReceiver,
-      response.uri(),
-      streamOf(response)
-    );
+    try {
+      final var response = this.send(sourceURI);
+      return this.parsers.createParser(
+        errorReceiver,
+        response.uri(),
+        streamOf(response)
+      );
+    } catch (final IOException e) {
+      throw new AOV3ExceptionHTTPRequestIOFailed(sourceURI, e);
+    }
   }
 
   private HttpResponse<InputStream> send(
     final URI sourceURI)
-    throws IOException, InterruptedException
+    throws
+    InterruptedException,
+    AOV3ExceptionHTTPRequestFailed,
+    AOV3ExceptionHTTPRequestIOFailed
   {
     LOG.info("GET {}", sourceURI);
 
@@ -243,13 +253,22 @@ final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
 
     logRequestHeaders(request.headers());
 
-    final var response =
-      this.client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+    final HttpResponse<InputStream> response;
+    try {
+      response =
+        this.client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+    } catch (final IOException e) {
+      throw new AOV3ExceptionHTTPRequestIOFailed(sourceURI, e);
+    }
 
     logReceivedHeaders(response);
     if (response.statusCode() >= 400) {
-      throw new IOException(
-        this.messages.requestFailed(response.statusCode(), response.uri()));
+      throw new AOV3ExceptionHTTPRequestFailed(
+        response.statusCode(),
+        response.uri(),
+        this.messages.requestFailed(response.statusCode(), response.uri()),
+        response.headers().map()
+      );
     }
 
     return response;

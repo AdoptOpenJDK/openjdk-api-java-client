@@ -15,8 +15,10 @@
 package net.adoptopenjdk.v3.tests;
 
 import net.adoptopenjdk.v3.api.AOV3Error;
+import net.adoptopenjdk.v3.api.AOV3ExceptionParseFailed;
 import net.adoptopenjdk.v3.vanilla.AOV3ResponseParsers;
 import net.adoptopenjdk.v3.vanilla.AOV3ResponseParsersType;
+import org.apache.commons.io.input.BrokenInputStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
@@ -60,7 +62,7 @@ public final class AOV3ResponseParsersTest
 
   @Test
   public void testAvailableReleases()
-    throws IOException
+    throws Exception
   {
     final var stream = resource("availableReleases.json");
     final var parser = this.parsers.createParser(
@@ -98,8 +100,28 @@ public final class AOV3ResponseParsersTest
   }
 
   @Test
+  public void testAvailableReleasesIOError()
+  {
+    final var stream = new BrokenInputStream();
+
+    final var parser =
+      this.parsers.createParser(
+        this::logError,
+        URI.create("urn:test"),
+        stream);
+
+    final var ex =
+      Assertions.assertThrows(
+        AOV3ExceptionParseFailed.class,
+        parser::parseAvailableReleases
+      );
+
+    Assertions.assertEquals(IOException.class, ex.getCause().getClass());
+  }
+
+  @Test
   public void testReleaseNames()
-    throws IOException
+    throws Exception
   {
     final var stream = resource("releaseNames.json");
     final var parser =
@@ -113,8 +135,28 @@ public final class AOV3ResponseParsersTest
   }
 
   @Test
+  public void testReleaseNamesIOError()
+  {
+    final var stream = new BrokenInputStream();
+
+    final var parser =
+      this.parsers.createParser(
+        this::logError,
+        URI.create("urn:test"),
+        stream);
+
+    final var ex =
+      Assertions.assertThrows(
+        AOV3ExceptionParseFailed.class,
+        parser::parseReleaseNames
+      );
+
+    Assertions.assertEquals(IOException.class, ex.getCause().getClass());
+  }
+
+  @Test
   public void testReleaseVersions()
-    throws IOException
+    throws Exception
   {
     final var stream = resource("releaseVersions.json");
     final var parser =
@@ -124,8 +166,28 @@ public final class AOV3ResponseParsersTest
   }
 
   @Test
+  public void testReleaseVersionsIOError()
+  {
+    final var stream = new BrokenInputStream();
+
+    final var parser =
+      this.parsers.createParser(
+        this::logError,
+        URI.create("urn:test"),
+        stream);
+
+    final var ex =
+      Assertions.assertThrows(
+        AOV3ExceptionParseFailed.class,
+        parser::parseReleaseVersions
+      );
+
+    Assertions.assertEquals(IOException.class, ex.getCause().getClass());
+  }
+
+  @Test
   public void testAssetsForRelease()
-    throws IOException
+    throws Exception
   {
     final var stream = resource("assetsForRelease.json");
     final var parser =
@@ -146,8 +208,28 @@ public final class AOV3ResponseParsersTest
   }
 
   @Test
+  public void testAssetsForReleaseIOError()
+  {
+    final var stream = new BrokenInputStream();
+
+    final var parser =
+      this.parsers.createParser(
+        this::logError,
+        URI.create("urn:test"),
+        stream);
+
+    final var ex =
+      Assertions.assertThrows(
+        AOV3ExceptionParseFailed.class,
+        parser::parseAssetsForRelease
+      );
+
+    Assertions.assertEquals(IOException.class, ex.getCause().getClass());
+  }
+
+  @Test
   public void testAssetsForReleaseBad1()
-    throws IOException
+    throws Exception
   {
     final var stream =
       resource("assetsForReleaseBad1.json");
@@ -172,7 +254,7 @@ public final class AOV3ResponseParsersTest
 
   private void testAssetsForReleaseFuzzOnce(
     final Integer index)
-    throws IOException
+    throws Exception
   {
     final var rng = new Random(index.longValue());
     try (var stream =
@@ -189,7 +271,6 @@ public final class AOV3ResponseParsersTest
       Assertions.assertTrue(this.errors.size() > 0);
     }
   }
-
 
   private static InputStream resource(final String name)
     throws IOException

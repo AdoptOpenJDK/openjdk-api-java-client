@@ -15,6 +15,7 @@
 package net.adoptopenjdk.v3.vanilla;
 
 import net.adoptopenjdk.v3.api.AOV3Error;
+import net.adoptopenjdk.v3.api.AOV3Exception;
 import net.adoptopenjdk.v3.api.AOV3ReleaseKind;
 import net.adoptopenjdk.v3.api.AOV3RequestReleaseVersionsType;
 import net.adoptopenjdk.v3.api.AOV3SortOrder;
@@ -22,7 +23,6 @@ import net.adoptopenjdk.v3.api.AOV3Vendor;
 import net.adoptopenjdk.v3.api.AOV3VersionData;
 import net.adoptopenjdk.v3.api.AOV3VersionRange;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.util.List;
@@ -73,7 +73,7 @@ final class AOV3RequestReleaseVersions implements AOV3RequestReleaseVersionsType
 
   @Override
   public List<AOV3VersionData> execute()
-    throws IOException, InterruptedException
+    throws AOV3Exception, InterruptedException
   {
     final var uriBuilder = new StringBuilder(128);
     uriBuilder.append(this.client.baseURI());

@@ -14,24 +14,39 @@
 
 package net.adoptopenjdk.v3.api;
 
+import java.net.URI;
+import java.util.Objects;
+
 /**
- * An executable request. Requests can be created once and re-executed an
- * arbitrary number of times.
- *
- * @param <T> The type of returned values
+ * An HTTP request due to an I/O error.
  */
 
-public interface AOV3RequestType<T>
+public final class AOV3ExceptionHTTPRequestIOFailed extends AOV3Exception
 {
+  private final URI uri;
+
   /**
-   * Execute the request, returning the results received.
+   * Construct an exception.
    *
-   * @return The received data
-   *
-   * @throws AOV3Exception        On errors
-   * @throws InterruptedException If the thread hosting the operation was interrupted
+   * @param inUri The request URI
+   * @param cause The cause of the error
    */
 
-  T execute()
-    throws AOV3Exception, InterruptedException;
+  public AOV3ExceptionHTTPRequestIOFailed(
+    final URI inUri,
+    final Throwable cause)
+  {
+    super(cause);
+    this.uri =
+      Objects.requireNonNull(inUri, "uri");
+  }
+
+  /**
+   * @return The request URI
+   */
+
+  public URI uri()
+  {
+    return this.uri;
+  }
 }

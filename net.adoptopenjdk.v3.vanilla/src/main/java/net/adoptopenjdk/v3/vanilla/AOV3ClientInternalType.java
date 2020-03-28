@@ -15,8 +15,8 @@
 package net.adoptopenjdk.v3.vanilla;
 
 import net.adoptopenjdk.v3.api.AOV3Error;
+import net.adoptopenjdk.v3.api.AOV3Exception;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.function.Consumer;
 
@@ -25,7 +25,7 @@ public interface AOV3ClientInternalType
   default AOV3ResponseParserType parserFor(
     final Consumer<AOV3Error> errorReceiver,
     final String sourceURI)
-    throws IOException, InterruptedException
+    throws AOV3Exception, InterruptedException
   {
     return this.parserForURI(errorReceiver, URI.create(sourceURI));
   }
@@ -33,7 +33,7 @@ public interface AOV3ClientInternalType
   AOV3ResponseParserType parserForURI(
     Consumer<AOV3Error> errorReceiver,
     URI sourceURI)
-    throws IOException, InterruptedException;
+    throws AOV3Exception, InterruptedException;
 
   String baseURI();
 }

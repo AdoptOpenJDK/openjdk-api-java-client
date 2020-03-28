@@ -15,10 +15,10 @@
 package net.adoptopenjdk.v3.vanilla;
 
 import net.adoptopenjdk.v3.api.AOV3AvailableReleases;
+import net.adoptopenjdk.v3.api.AOV3ExceptionParseFailed;
 import net.adoptopenjdk.v3.api.AOV3Release;
 import net.adoptopenjdk.v3.api.AOV3VersionData;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -28,14 +28,14 @@ import java.util.List;
 public interface AOV3ResponseParserType
 {
   AOV3AvailableReleases parseAvailableReleases()
-    throws IOException;
+    throws AOV3ExceptionParseFailed;
 
   List<String> parseReleaseNames()
-    throws IOException;
+    throws AOV3ExceptionParseFailed;
 
   List<AOV3VersionData> parseReleaseVersions()
-    throws IOException;
+    throws AOV3ExceptionParseFailed;
 
   List<AOV3Release> parseAssetsForRelease()
-    throws IOException;
+    throws AOV3ExceptionParseFailed;
 }
