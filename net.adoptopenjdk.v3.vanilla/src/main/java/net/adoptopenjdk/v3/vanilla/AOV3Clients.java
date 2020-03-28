@@ -16,6 +16,7 @@ package net.adoptopenjdk.v3.vanilla;
 
 import net.adoptopenjdk.v3.api.AOV3ClientProviderType;
 import net.adoptopenjdk.v3.api.AOV3ClientType;
+import org.osgi.service.component.annotations.Component;
 
 import java.net.http.HttpClient;
 import java.util.Objects;
@@ -25,6 +26,7 @@ import java.util.function.Supplier;
  * The default provider of v3 clients.
  */
 
+@Component(service = AOV3ClientProviderType.class)
 public final class AOV3Clients implements AOV3ClientProviderType
 {
   private final Supplier<HttpClient> clients;

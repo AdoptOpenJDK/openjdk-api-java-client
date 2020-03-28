@@ -14,6 +14,7 @@
 
 package net.adoptopenjdk.v3.tests;
 
+import net.adoptopenjdk.v3.api.AOV3ClientProviderType;
 import net.adoptopenjdk.v3.api.AOV3Error;
 import net.adoptopenjdk.v3.api.AOV3ExceptionHTTPRequestFailed;
 import net.adoptopenjdk.v3.api.AOV3ReleaseKind;
@@ -38,6 +39,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ServiceLoader;
 
 public final class AOV3ClientsTest
 {
@@ -123,5 +125,16 @@ public final class AOV3ClientsTest
         exception.uri().toString()
       );
     }
+  }
+
+  @Test
+  public void testService()
+    throws Exception
+  {
+    final var clients =
+      ServiceLoader.load(AOV3ClientProviderType.class)
+        .findFirst()
+        .orElseThrow(() -> new IllegalStateException(
+          String.format("No implementations of %s are available", AOV3ClientProviderType.class)));
   }
 }

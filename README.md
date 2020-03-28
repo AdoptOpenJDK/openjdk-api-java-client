@@ -11,8 +11,17 @@ A Java client for the [AdoptOpenJDK REST API](https://api.adoptopenjdk.net/).
 
 ![adoptopenjdk](./src/site/resources/adoptopenjdk.jpg?raw=true)
 
-Usage
-===
+## Features
+
+* Efficient, type-safe access to the AdoptOpenJDK API
+* Clean API/implementation separation for easy API mocking in applications
+* [JPMS](https://openjdk.java.net/projects/jigsaw/spec/)-ready
+* [OSGi](https://www.osgi.org)-ready
+* High coverage automated test suite
+* Apache 2.0 license
+* Fully documented (JavaDOC)
+
+## Usage
 
 Use the following Maven dependencies:
 
@@ -44,3 +53,20 @@ try (var client = clients.createClient()) {
 
 The API operates entirely synchronously and raises checked exceptions on
 failures.
+
+The `net.adoptopenjdk.v3.api.AOV3ClientProviderType` interface is published
+both as a JPMS service and an [OSGi service](https://www.osgi.org) in order to 
+allow for decoupling consumers from the `vanilla` implementation package:
+
+```
+var clients =
+  ServiceLoader.load(AOV3ClientProviderType.class)
+    .findFirst()
+    .orElseThrow(() -> new IllegalStateException(
+      String.format("No implementations of %s are available", AOV3ClientProviderType.class)));
+
+try (var client = clients.createClient()) {
+  var request = client.availableReleases(...);
+  var releases = request.execute();
+}
+```

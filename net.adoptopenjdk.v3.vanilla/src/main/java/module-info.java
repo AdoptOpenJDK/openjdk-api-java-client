@@ -17,9 +17,10 @@ import net.adoptopenjdk.v3.vanilla.AOV3Clients;
 
 module net.adoptopenjdk.v3.vanilla
 {
+  requires static com.fasterxml.jackson.annotation;
   requires static org.osgi.annotation.bundle;
   requires static org.osgi.annotation.versioning;
-  requires static com.fasterxml.jackson.annotation;
+  requires static org.osgi.service.component.annotations;
 
   requires transitive net.adoptopenjdk.v3.api;
 
