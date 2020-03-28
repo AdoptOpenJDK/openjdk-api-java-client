@@ -122,7 +122,6 @@ final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
 
   @Override
   public void close()
-    throws IOException
   {
 
   }

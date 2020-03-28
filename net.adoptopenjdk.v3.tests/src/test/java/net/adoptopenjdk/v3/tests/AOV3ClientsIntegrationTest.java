@@ -20,7 +20,6 @@ import net.adoptopenjdk.v3.api.AOV3HeapSize;
 import net.adoptopenjdk.v3.api.AOV3ImageKind;
 import net.adoptopenjdk.v3.api.AOV3JVMImplementation;
 import net.adoptopenjdk.v3.api.AOV3OperatingSystem;
-import net.adoptopenjdk.v3.api.AOV3Release;
 import net.adoptopenjdk.v3.api.AOV3ReleaseKind;
 import net.adoptopenjdk.v3.api.AOV3SortOrder;
 import net.adoptopenjdk.v3.api.AOV3Vendor;
@@ -34,7 +33,6 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public final class AOV3ClientsIntegrationTest

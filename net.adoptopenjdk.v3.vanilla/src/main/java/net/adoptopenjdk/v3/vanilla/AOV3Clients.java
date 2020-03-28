@@ -19,6 +19,7 @@ import net.adoptopenjdk.v3.api.AOV3ClientType;
 
 import java.net.http.HttpClient;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * The default provider of v3 clients.
@@ -26,7 +27,7 @@ import java.util.Objects;
 
 public final class AOV3Clients implements AOV3ClientProviderType
 {
-  private final HttpClient client;
+  private final Supplier<HttpClient> clients;
   private final AOV3ResponseParsersType parsers;
   private final AOV3MessagesType messages;
 
@@ -35,20 +36,20 @@ public final class AOV3Clients implements AOV3ClientProviderType
    *
    * @param inParsers  The parser provider
    * @param inMessages The message provider
-   * @param inClient   The HTTP client
+   * @param inClients   The HTTP client supplier
    */
 
   public AOV3Clients(
     final AOV3ResponseParsersType inParsers,
     final AOV3MessagesType inMessages,
-    final HttpClient inClient)
+    final Supplier<HttpClient> inClients)
   {
     this.parsers =
       Objects.requireNonNull(inParsers, "parsers");
     this.messages =
       Objects.requireNonNull(inMessages, "messages");
-    this.client =
-      Objects.requireNonNull(inClient, "client");
+    this.clients =
+      Objects.requireNonNull(inClients, "client");
   }
 
   /**
@@ -60,7 +61,7 @@ public final class AOV3Clients implements AOV3ClientProviderType
     this(
       AOV3ResponseParsers.create(),
       AOV3Messages.of(AOV3Messages.getResourceBundle()),
-      HttpClient.newHttpClient()
+      HttpClient::newHttpClient
     );
   }
 
@@ -69,7 +70,7 @@ public final class AOV3Clients implements AOV3ClientProviderType
   {
     return new AOV3Client(
       "https://api.adoptopenjdk.net/v3",
-      this.client,
+      this.clients.get(),
       this.messages,
       this.parsers
     );
