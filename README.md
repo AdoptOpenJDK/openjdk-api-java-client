@@ -36,9 +36,10 @@ Then:
 
 ```
 var clients = new AOV3Clients();
-var client = clients.createClient();
-var request = client.availableReleases(...);
-var releases = request.execute();
+try (var client = clients.createClient()) {
+  var request = client.availableReleases(...);
+  var releases = request.execute();
+}
 ```
 
 The API operates entirely synchronously and raises checked exceptions on
