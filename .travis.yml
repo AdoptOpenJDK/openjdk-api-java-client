@@ -1,0 +1,12 @@
+language: java
+
+jdk:
+  - oraclejdk11
+  - openjdk11
+
+install: true
+
+script:
+  - mvn --errors clean verify site
+  - bash <(curl -s https://codecov.io/bash) -f net.adoptopenjdk.tests/target/site/jacoco-aggregate/jacoco.xml
+

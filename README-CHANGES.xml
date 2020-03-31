@@ -1,0 +1,9 @@
+<c:changelog xmlns:c="urn:com.io7m.changelog:4.0" project="openjdk-api-java-client">
+   <c:releases>
+   </c:releases>
+   <c:ticket-systems>
+      <c:ticket-system id="com.github.adoptopenjdk.openjdk-api-java-client"
+                       url="https://github.com/AdoptOpenJDK/openjdk-api-java-client/issues/"
+                       default="true"/>
+   </c:ticket-systems>
+</c:changelog>
