@@ -11,44 +11,62 @@ A Java client for the [AdoptOpenJDK REST API](https://api.adoptopenjdk.net/).
 
 ![adoptopenjdk](./src/site/resources/adoptopenjdk.jpg?raw=true)
 
-Usage
-===
+## Features
+
+* Efficient, type-safe access to the AdoptOpenJDK API
+* Clean API/implementation separation for easy API mocking in applications
+* [JPMS](https://openjdk.java.net/projects/jigsaw/spec/)-ready
+* [OSGi](https://www.osgi.org)-ready
+* High coverage automated test suite
+* Apache 2.0 license
+* Fully documented (JavaDOC)
+
+## Usage
 
 Use the following Maven dependencies:
 
 ```
 <dependency>
   <groupId>net.adoptopenjdk</groupId>
-  <artifactId>net.adoptopenjdk.api</artifactId>
+  <artifactId>net.adoptopenjdk.v3.api</artifactId>
   <version><!-- Insert latest version --></version>
 </dependency>
 <dependency>
   <groupId>net.adoptopenjdk</groupId>
-  <artifactId>net.adoptopenjdk.v1</artifactId>
+  <artifactId>net.adoptopenjdk.v3.vanilla</artifactId>
   <version><!-- Insert latest version --></version>
 </dependency>
 ```
 
 The first dependency specifies that you want to use the API, and the second
-is a basic provider for the version `1.0.0` API.
+is a basic provider for the version API.
 
 Then:
 
 ```
-AdoptOpenJDKRequestsType requests = AdoptOpenJDK.get(1);
-
-List<AOVariants> variants = requests.variants();
-assert variants.size() > 0;
-
-List<AORelease> releases =
-  requests.releasesForVariant(variants.get(0).name());
-
-List<AORelease> releases_8 =
-  requests.releasesForVariant("openjdk8");
-
-List<AORelease> nightlies_9 =
-  requests.nightlyBuildsForVariant("openjdk9");
+var clients = new AOV3Clients();
+try (var client = clients.createClient()) {
+  var request = client.availableReleases(...);
+  var releases = request.execute();
+}
 ```
 
 The API operates entirely synchronously and raises checked exceptions on
-failures. Do not share values of type `AdoptOpenJDKRequestsType` across threads.
+failures.
+
+The `net.adoptopenjdk.v3.api.AOV3ClientProviderType` interface is published
+both as a JPMS service and an [OSGi service](https://www.osgi.org) in order to 
+allow for decoupling consumers from the `vanilla` implementation package:
+
+```
+var clients =
+  ServiceLoader.load(AOV3ClientProviderType.class)
+    .findFirst()
+    .orElseThrow(() -> new IllegalStateException(
+      String.format("No implementations of %s are available", AOV3ClientProviderType.class)));
+
+try (var client = clients.createClient()) {
+  var request = client.availableReleases(...);
+  var releases = request.execute();
+}
+```

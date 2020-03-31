@@ -1,8 +1,0 @@
-[
-  {
-    "name": "OpenJDK 8 with Hotspot"
-  },
-  {
-    "variant": "openjdk8-openj9"
-  }
-]
