@@ -252,6 +252,28 @@ public final class AOV3ResponseParsersTest
       });
   }
 
+  @Test
+  public void testAssetsForLatest()
+    throws Exception
+  {
+    final var stream = resource("assetsForLatest.json");
+    final var parser =
+      this.parsers.createParser(this::logError, URI.create("urn:test"), stream);
+    final var assets = parser.parseAssetsForLatest();
+
+    {
+      final var release = assets.get(0);
+      Assertions.assertEquals("jdk-11.0.6+10", release.releaseName());
+    }
+
+    {
+      final var release = assets.get(25);
+      Assertions.assertEquals("jdk-11.0.6+10", release.releaseName());
+    }
+
+    Assertions.assertEquals(0, this.errors.size());
+  }
+
   private void testAssetsForReleaseFuzzOnce(
     final Integer index)
     throws Exception

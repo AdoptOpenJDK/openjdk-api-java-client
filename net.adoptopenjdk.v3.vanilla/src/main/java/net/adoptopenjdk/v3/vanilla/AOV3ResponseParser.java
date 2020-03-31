@@ -25,6 +25,7 @@ import net.adoptopenjdk.v3.api.AOV3HeapSize;
 import net.adoptopenjdk.v3.api.AOV3ImageKind;
 import net.adoptopenjdk.v3.api.AOV3Installer;
 import net.adoptopenjdk.v3.api.AOV3JVMImplementation;
+import net.adoptopenjdk.v3.api.AOV3ListBinaryAssetView;
 import net.adoptopenjdk.v3.api.AOV3OperatingSystem;
 import net.adoptopenjdk.v3.api.AOV3Package;
 import net.adoptopenjdk.v3.api.AOV3Release;
@@ -378,6 +379,55 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
     } catch (final IOException e) {
       throw new AOV3ExceptionParseFailed(e);
     }
+  }
+
+  @Override
+  public List<AOV3ListBinaryAssetView> parseAssetsForLatest()
+    throws AOV3ExceptionParseFailed
+  {
+    try {
+      final List<AOV3AST.AOV3ListBinaryAssetViewJSON> ast =
+        this.objectMapper.readerFor(new TypeReference<List<AOV3AST.AOV3ListBinaryAssetViewJSON>>()
+        {
+        }).readValue(this.stream);
+
+      return ast.stream()
+        .flatMap(this::tryToListBinaryAssetView)
+        .collect(Collectors.toList());
+    } catch (final IOException e) {
+      throw new AOV3ExceptionParseFailed(e);
+    }
+  }
+
+  private Stream<? extends AOV3ListBinaryAssetView> tryToListBinaryAssetView(
+    final AOV3AST.AOV3ListBinaryAssetViewJSON view)
+  {
+    try {
+      return Stream.of(toListBinaryAssetView(view));
+    } catch (final Exception e) {
+      LOG.error("exception raised during release parsing: ", e);
+      this.errorReceiver.accept(
+        AOV3Error.builder()
+          .setContext("release")
+          .setException(e)
+          .setMessage(e.getMessage())
+          .setSource(this.source)
+          .build());
+      return Stream.empty();
+    }
+  }
+
+  private static AOV3ListBinaryAssetView toListBinaryAssetView(
+    final AOV3AST.AOV3ListBinaryAssetViewJSON view)
+  {
+    final var builder = AOV3ListBinaryAssetView.builder();
+
+    builder.setBinary(
+      toBinary(Objects.requireNonNull(view.binary, "view.binary")));
+    builder.setReleaseName(
+      Objects.requireNonNull(view.releaseName, "view.releaseName"));
+
+    return builder.build();
   }
 
   private Stream<? extends AOV3Release> tryToRelease(

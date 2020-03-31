@@ -94,4 +94,59 @@ public interface AOV3APICallsType
     Optional<AOV3SortOrder> sortOrder,
     Optional<AOV3Vendor> vendor
   );
+
+  /**
+   * @param errorReceiver A receiver of errors encountered during the API call
+   *
+   * @return An executable request
+   *
+   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Assets/get_v3_assets_latest__feature_version___jvm_impl_"
+   */
+
+  AOV3RequestAssetsForLatestType assetsForLatest(
+    Consumer<AOV3Error> errorReceiver,
+    BigInteger version,
+    AOV3JVMImplementation jvmImplementation
+  );
+
+  /**
+   * @param errorReceiver A receiver of errors encountered during the API call
+   *
+   * @return An executable request
+   *
+   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Binary/get_v3_binary_latest__feature_version___release_type___os___arch___image_type___jvm_impl___heap_size___vendor_"
+   */
+
+  AOV3RequestBinaryForLatestType binaryForLatest(
+    Consumer<AOV3Error> errorReceiver,
+    AOV3Architecture architecture,
+    BigInteger version,
+    AOV3HeapSize heapSize,
+    AOV3ImageKind imageKind,
+    AOV3JVMImplementation jvmImplementation,
+    AOV3OperatingSystem operatingSystem,
+    AOV3ReleaseKind releaseKind,
+    AOV3Vendor vendor,
+    Optional<String> project
+  );
+
+  /**
+   * @param errorReceiver A receiver of errors encountered during the API call
+   *
+   * @return An executable request
+   *
+   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Binary/get_v3_binary_version__release_name___os___arch___image_type___jvm_impl___heap_size___vendor_"
+   */
+
+  AOV3RequestBinaryForReleaseType binaryForRelease(
+    Consumer<AOV3Error> errorReceiver,
+    String releaseName,
+    AOV3OperatingSystem operatingSystem,
+    AOV3Architecture architecture,
+    AOV3ImageKind imageKind,
+    AOV3JVMImplementation jvmImplementation,
+    AOV3HeapSize heapSize,
+    AOV3Vendor vendor,
+    Optional<String> project
+  );
 }

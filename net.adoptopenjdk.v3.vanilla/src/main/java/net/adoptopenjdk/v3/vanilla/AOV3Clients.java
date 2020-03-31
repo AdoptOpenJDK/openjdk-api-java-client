@@ -63,8 +63,15 @@ public final class AOV3Clients implements AOV3ClientProviderType
     this(
       AOV3ResponseParsers.create(),
       AOV3Messages.of(AOV3Messages.getResourceBundle()),
-      HttpClient::newHttpClient
+      AOV3Clients::newHttpClient
     );
+  }
+
+  private static HttpClient newHttpClient()
+  {
+    return HttpClient.newBuilder()
+      .followRedirects(HttpClient.Redirect.NEVER)
+      .build();
   }
 
   @Override

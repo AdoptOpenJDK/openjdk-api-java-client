@@ -163,9 +163,120 @@ public final class AOV3ClientsIntegrationTest
         Optional.of(AOV3Vendor.ADOPT_OPENJDK)
       );
 
-      final var releases = request.execute();
-      LOG.debug("releases: {}", Integer.valueOf(releases.size()));
-      LOG.debug("releases: {}", releases);
+      final var assets = request.execute();
+      LOG.debug("assets: {}", Integer.valueOf(assets.size()));
+      LOG.debug("assets: {}", assets);
+    }
+  }
+
+  @Test
+  public void testAssetsForLatest()
+    throws Exception
+  {
+    try (var client = this.clients.createClient()) {
+      final var request = client.assetsForLatest(
+        this::logError,
+        BigInteger.valueOf(11L),
+        AOV3JVMImplementation.HOTSPOT
+      );
+
+      final var assets = request.execute();
+      LOG.debug("assets: {}", Integer.valueOf(assets.size()));
+      LOG.debug("assets: {}", assets);
+    }
+  }
+
+  @Test
+  public void testBinaryForLatest()
+    throws Exception
+  {
+    try (var client = this.clients.createClient()) {
+      final var request =
+        client.binaryForLatest(
+          this::logError,
+          AOV3Architecture.X64,
+          BigInteger.valueOf(11L),
+          AOV3HeapSize.NORMAL,
+          AOV3ImageKind.JDK,
+          AOV3JVMImplementation.HOTSPOT,
+          AOV3OperatingSystem.LINUX,
+          AOV3ReleaseKind.GENERAL_AVAILABILITY,
+          AOV3Vendor.ADOPT_OPENJDK,
+          Optional.empty()
+        );
+
+      final var uri = request.execute();
+      LOG.debug("uri: {}", uri);
+    }
+  }
+
+  @Test
+  public void testBinaryForLatestWithProject()
+    throws Exception
+  {
+    try (var client = this.clients.createClient()) {
+      final var request =
+        client.binaryForLatest(
+          this::logError,
+          AOV3Architecture.X64,
+          BigInteger.valueOf(11L),
+          AOV3HeapSize.NORMAL,
+          AOV3ImageKind.JDK,
+          AOV3JVMImplementation.HOTSPOT,
+          AOV3OperatingSystem.LINUX,
+          AOV3ReleaseKind.GENERAL_AVAILABILITY,
+          AOV3Vendor.ADOPT_OPENJDK,
+          Optional.of("jdk")
+        );
+
+      final var uri = request.execute();
+      LOG.debug("uri: {}", uri);
+    }
+  }
+
+  @Test
+  public void testBinaryForRelease()
+    throws Exception
+  {
+    try (var client = this.clients.createClient()) {
+      final var request =
+        client.binaryForRelease(
+          this::logError,
+          "jdk-11.0.6+10",
+          AOV3OperatingSystem.LINUX,
+          AOV3Architecture.X64,
+          AOV3ImageKind.JDK,
+          AOV3JVMImplementation.HOTSPOT,
+          AOV3HeapSize.NORMAL,
+          AOV3Vendor.ADOPT_OPENJDK,
+          Optional.empty()
+        );
+
+      final var uri = request.execute();
+      LOG.debug("uri: {}", uri);
+    }
+  }
+
+  @Test
+  public void testBinaryForReleaseWithProject()
+    throws Exception
+  {
+    try (var client = this.clients.createClient()) {
+      final var request =
+        client.binaryForRelease(
+          this::logError,
+          "jdk-11.0.6+10",
+          AOV3OperatingSystem.LINUX,
+          AOV3Architecture.X64,
+          AOV3ImageKind.JDK,
+          AOV3JVMImplementation.HOTSPOT,
+          AOV3HeapSize.NORMAL,
+          AOV3Vendor.ADOPT_OPENJDK,
+          Optional.of("jdk")
+        );
+
+      final var uri = request.execute();
+      LOG.debug("uri: {}", uri);
     }
   }
 }

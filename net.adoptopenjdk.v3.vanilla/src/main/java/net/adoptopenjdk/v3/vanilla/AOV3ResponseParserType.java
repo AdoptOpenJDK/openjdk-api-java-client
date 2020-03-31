@@ -16,6 +16,7 @@ package net.adoptopenjdk.v3.vanilla;
 
 import net.adoptopenjdk.v3.api.AOV3AvailableReleases;
 import net.adoptopenjdk.v3.api.AOV3ExceptionParseFailed;
+import net.adoptopenjdk.v3.api.AOV3ListBinaryAssetView;
 import net.adoptopenjdk.v3.api.AOV3Release;
 import net.adoptopenjdk.v3.api.AOV3VersionData;
 
@@ -37,5 +38,8 @@ public interface AOV3ResponseParserType
     throws AOV3ExceptionParseFailed;
 
   List<AOV3Release> parseAssetsForRelease()
+    throws AOV3ExceptionParseFailed;
+
+  List<AOV3ListBinaryAssetView> parseAssetsForLatest()
     throws AOV3ExceptionParseFailed;
 }

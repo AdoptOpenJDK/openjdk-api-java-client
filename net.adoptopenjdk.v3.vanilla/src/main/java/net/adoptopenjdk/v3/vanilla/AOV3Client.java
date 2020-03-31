@@ -25,7 +25,10 @@ import net.adoptopenjdk.v3.api.AOV3ImageKind;
 import net.adoptopenjdk.v3.api.AOV3JVMImplementation;
 import net.adoptopenjdk.v3.api.AOV3OperatingSystem;
 import net.adoptopenjdk.v3.api.AOV3ReleaseKind;
+import net.adoptopenjdk.v3.api.AOV3RequestAssetsForLatestType;
 import net.adoptopenjdk.v3.api.AOV3RequestAssetsForReleaseType;
+import net.adoptopenjdk.v3.api.AOV3RequestBinaryForLatestType;
+import net.adoptopenjdk.v3.api.AOV3RequestBinaryForReleaseType;
 import net.adoptopenjdk.v3.api.AOV3RequestReleaseNamesType;
 import net.adoptopenjdk.v3.api.AOV3RequestReleaseVersionsType;
 import net.adoptopenjdk.v3.api.AOV3RequestReleasesType;
@@ -70,10 +73,28 @@ final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
       Objects.requireNonNull(inMessages, "messages");
     this.parsers =
       Objects.requireNonNull(inParsers, "parsers");
+
+    checkClientNoRedirects(this.messages, inClient);
+  }
+
+  private static void checkClientNoRedirects(
+    final AOV3MessagesType messages,
+    final HttpClient inClient)
+  {
+    switch (inClient.followRedirects()) {
+      case NEVER: {
+        break;
+      }
+      case ALWAYS:
+      case NORMAL: {
+        throw new IllegalStateException(
+          messages.httpClientNoRedirects(inClient.followRedirects()));
+      }
+    }
   }
 
   private static void logReceivedHeaders(
-    final HttpResponse<InputStream> response)
+    final HttpResponse<?> response)
   {
     if (LOG.isDebugEnabled()) {
       final var headers = response.headers().map();
@@ -215,6 +236,72 @@ final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
   }
 
   @Override
+  public AOV3RequestAssetsForLatestType assetsForLatest(
+    final Consumer<AOV3Error> errorReceiver,
+    final BigInteger version,
+    final AOV3JVMImplementation jvmImplementation)
+  {
+    return new AOV3RequestAssetsForLatest(
+      this,
+      errorReceiver,
+      version,
+      jvmImplementation
+    );
+  }
+
+  @Override
+  public AOV3RequestBinaryForLatestType binaryForLatest(
+    final Consumer<AOV3Error> errorReceiver,
+    final AOV3Architecture architecture,
+    final BigInteger version,
+    final AOV3HeapSize heapSize,
+    final AOV3ImageKind imageKind,
+    final AOV3JVMImplementation jvmImplementation,
+    final AOV3OperatingSystem operatingSystem,
+    final AOV3ReleaseKind releaseKind,
+    final AOV3Vendor vendor,
+    final Optional<String> project)
+  {
+    return new AOV3RequestBinaryForLatest(
+      this,
+      architecture,
+      version,
+      heapSize,
+      imageKind,
+      jvmImplementation,
+      operatingSystem,
+      releaseKind,
+      vendor,
+      project
+    );
+  }
+
+  @Override
+  public AOV3RequestBinaryForReleaseType binaryForRelease(
+    final Consumer<AOV3Error> errorReceiver,
+    final String releaseName,
+    final AOV3OperatingSystem operatingSystem,
+    final AOV3Architecture architecture,
+    final AOV3ImageKind imageKind,
+    final AOV3JVMImplementation jvmImplementation,
+    final AOV3HeapSize heapSize,
+    final AOV3Vendor vendor,
+    final Optional<String> project)
+  {
+    return new AOV3RequestBinaryForRelease(
+      this,
+      architecture,
+      heapSize,
+      imageKind,
+      jvmImplementation,
+      operatingSystem,
+      vendor,
+      project,
+      releaseName
+    );
+  }
+
+  @Override
   public AOV3ResponseParserType parserForURI(
     final Consumer<AOV3Error> errorReceiver,
     final URI sourceURI)
@@ -233,6 +320,56 @@ final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
     } catch (final IOException e) {
       throw new AOV3ExceptionHTTPRequestIOFailed(sourceURI, e);
     }
+  }
+
+  public URI uriFor(
+    final String uri)
+    throws
+    InterruptedException,
+    AOV3ExceptionHTTPRequestIOFailed,
+    AOV3ExceptionHTTPRequestFailed
+  {
+    LOG.info("GET {}", uri);
+
+    final var sourceURI = URI.create(uri);
+    final var request =
+      HttpRequest.newBuilder(sourceURI)
+        .header("Accept-Encoding", "gzip")
+        .header("User-Agent", userAgentHeader())
+        .GET()
+        .build();
+
+    logRequestHeaders(request.headers());
+
+    final HttpResponse<Void> response;
+    try {
+      response =
+        this.client.send(request, HttpResponse.BodyHandlers.discarding());
+    } catch (final IOException e) {
+      throw new AOV3ExceptionHTTPRequestIOFailed(sourceURI, e);
+    }
+
+    logReceivedHeaders(response);
+
+    if (response.statusCode() == 307) {
+      final var location = response.headers().firstValue("Location");
+      if (location.isEmpty()) {
+        throw new AOV3ExceptionHTTPRequestFailed(
+          response.statusCode(),
+          response.uri(),
+          this.messages.locationMissing(response.statusCode(), response.uri()),
+          response.headers().map()
+        );
+      }
+      return URI.create(location.get());
+    }
+
+    throw new AOV3ExceptionHTTPRequestFailed(
+      response.statusCode(),
+      response.uri(),
+      this.messages.requestFailed(response.statusCode(), response.uri()),
+      response.headers().map()
+    );
   }
 
   private HttpResponse<InputStream> send(

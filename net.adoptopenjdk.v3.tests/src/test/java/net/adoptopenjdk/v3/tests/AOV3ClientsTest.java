@@ -87,6 +87,8 @@ public final class AOV3ClientsTest
     final var headers =
       HttpHeaders.of(Map.of(), (key, val) -> true);
 
+    Mockito.when(this.client.followRedirects())
+      .thenReturn(HttpClient.Redirect.NEVER);
     Mockito.when(this.client.send(Mockito.any(), Mockito.any()))
       .thenReturn(this.response);
     Mockito.when(Integer.valueOf(this.response.statusCode()))

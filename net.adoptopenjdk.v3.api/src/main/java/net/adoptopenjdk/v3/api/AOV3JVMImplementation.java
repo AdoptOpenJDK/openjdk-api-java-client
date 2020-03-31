@@ -16,6 +16,10 @@ package net.adoptopenjdk.v3.api;
 
 import java.util.Objects;
 
+/**
+ * A JVM implementation such as Hotspot, OpenJ9, etc.
+ */
+
 public enum AOV3JVMImplementation implements AOV3HasNameTextType
 {
   HOTSPOT("hotspot"),
@@ -39,14 +43,7 @@ public enum AOV3JVMImplementation implements AOV3HasNameTextType
   public static AOV3JVMImplementation of(
     final String jvmImplementation)
   {
-    switch (jvmImplementation) {
-      case "hotspot":
-        return HOTSPOT;
-      case "openj9":
-        return OPENJ9;
-      default:
-        throw new IllegalStateException("Unexpected value: " + jvmImplementation);
-    }
+    return valueOf(jvmImplementation.toUpperCase());
   }
 
   @Override

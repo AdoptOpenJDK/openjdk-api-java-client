@@ -95,6 +95,16 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  public static final class AOV3ListBinaryAssetViewJSON implements AOV3ASTMemberType
+  {
+    @JsonProperty(value = "binary", required = true)
+    AOV3BinaryJSON binary;
+
+    @JsonProperty(value = "release_name", required = true)
+    String releaseName;
+  }
+
+  @JsonDeserialize
   public static final class AOV3ReleaseVersionsJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "versions", required = true)

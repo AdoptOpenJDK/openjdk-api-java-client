@@ -15,6 +15,7 @@
 package net.adoptopenjdk.v3.vanilla;
 
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.util.ResourceBundle;
 
 /**
@@ -34,7 +35,8 @@ public interface AOV3MessagesType
 
   String requestFailed(
     int statusCode,
-    URI uri);
+    URI uri
+  );
 
   /**
    * @return The underlying resource bundle
@@ -53,5 +55,32 @@ public interface AOV3MessagesType
 
   String format(
     String id,
-    Object... args);
+    Object... args
+  );
+
+  /**
+   * An HTTP client is misconfigured to follow redirects.
+   *
+   * @param followRedirects The current redirect value
+   *
+   * @return A translated strings
+   */
+
+  String httpClientNoRedirects(
+    HttpClient.Redirect followRedirects
+  );
+
+  /**
+   * The remote server failed to provide a required Location header.
+   *
+   * @param statusCode The status code
+   * @param uri        The original request URI
+   *
+   * @return A translated strings
+   */
+
+  String locationMissing(
+    int statusCode,
+    URI uri
+  );
 }

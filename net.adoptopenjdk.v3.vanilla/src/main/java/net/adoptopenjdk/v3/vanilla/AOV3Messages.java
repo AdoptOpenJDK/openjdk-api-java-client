@@ -15,6 +15,7 @@
 package net.adoptopenjdk.v3.vanilla;
 
 import java.net.URI;
+import java.net.http.HttpClient;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -82,6 +83,21 @@ public final class AOV3Messages implements AOV3MessagesType
     final Object... args)
   {
     return MessageFormat.format(this.resourceBundle.getString(id), args);
+  }
+
+  @Override
+  public String httpClientNoRedirects(
+    final HttpClient.Redirect followRedirects)
+  {
+    return this.format("http.clientMisconfigured", followRedirects);
+  }
+
+  @Override
+  public String locationMissing(
+    final int statusCode,
+    final URI uri)
+  {
+    return this.format("http.locationMissing", uri, Integer.valueOf(statusCode));
   }
 
   @Override
