@@ -39,7 +39,7 @@ Use the following Maven dependencies:
 ```
 
 The first dependency specifies that you want to use the API, and the second
-is a basic provider for the version API.
+is a basic provider for the API.
 
 Then:
 
