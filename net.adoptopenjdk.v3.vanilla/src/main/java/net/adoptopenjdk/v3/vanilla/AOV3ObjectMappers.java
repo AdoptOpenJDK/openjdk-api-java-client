@@ -17,6 +17,7 @@ package net.adoptopenjdk.v3.vanilla;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 public final class AOV3ObjectMappers
 {
@@ -27,8 +28,15 @@ public final class AOV3ObjectMappers
 
   public static ObjectMapper createObjectMapper()
   {
-    return JsonMapper.builder()
-      .configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true)
-      .build();
+    final JsonMapper mapper =
+      JsonMapper.builder()
+        .configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true)
+        .build();
+
+    final var deserializers = AOV3Deserializers.create();
+    final var simpleModule = new SimpleModule();
+    simpleModule.setDeserializers(deserializers);
+    mapper.registerModule(simpleModule);
+    return mapper;
   }
 }
