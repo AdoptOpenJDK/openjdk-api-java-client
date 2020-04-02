@@ -16,6 +16,7 @@ package net.adoptopenjdk.v3.tests;
 
 import net.adoptopenjdk.v3.api.AOV3Error;
 import net.adoptopenjdk.v3.api.AOV3ExceptionParseFailed;
+import net.adoptopenjdk.v3.api.AOV3Installer;
 import net.adoptopenjdk.v3.vanilla.AOV3ResponseParsers;
 import net.adoptopenjdk.v3.vanilla.AOV3ResponseParsersType;
 import org.apache.commons.io.input.BrokenInputStream;
@@ -269,6 +270,37 @@ public final class AOV3ResponseParsersTest
     {
       final var release = assets.get(25);
       Assertions.assertEquals("jdk-11.0.6+10", release.releaseName());
+    }
+
+    Assertions.assertEquals(0, this.errors.size());
+  }
+
+  @Test
+  public void testAssetsForReleases8()
+    throws Exception
+  {
+    final var stream = resource("releases8.json");
+    final var parser =
+      this.parsers.createParser(this::logError, URI.create("urn:test"), stream);
+    final var releases = parser.parseAssetsForRelease();
+
+    for (final var release : releases) {
+      LOG.debug("release {}", release.id());
+      for (final var binary : release.binaries()) {
+        LOG.debug("release {} binary {}", release.id(), binary.package_().name());
+        final var packChecksumOpt = binary.package_().checksum();
+        if (packChecksumOpt.isPresent()) {
+          final var checksum = packChecksumOpt.get();
+          Assertions.assertFalse(checksum.isBlank());
+        }
+
+        final var instChecksumOpt =
+          binary.installer().flatMap(AOV3Installer::checksum);
+        if (instChecksumOpt.isPresent()) {
+          final var checksum = instChecksumOpt.get();
+          Assertions.assertFalse(checksum.isBlank());
+        }
+      }
     }
 
     Assertions.assertEquals(0, this.errors.size());
