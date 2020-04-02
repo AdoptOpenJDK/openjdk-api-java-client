@@ -137,7 +137,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
     final AOV3AST.AOV3InstallerJSON installer)
   {
     final var checksum =
-      Objects.requireNonNull(installer.checksum, "installer.checksum");
+      Optional.ofNullable(installer.checksum);
     final var checksumLink =
       Optional.ofNullable(installer.checksumLink);
     final var downloadCount =
@@ -168,7 +168,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
     final AOV3AST.AOV3PackageJSON package_)
   {
     final var checksum =
-      Objects.requireNonNull(package_.checksum, "package_.checksum");
+      Optional.ofNullable(package_.checksum);
     final var checksumLink =
       Optional.ofNullable(package_.checksumLink);
     final var downloadCount =

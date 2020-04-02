@@ -33,7 +33,7 @@ public interface AOV3InstallerType
    * @return The checksum of the data
    */
 
-  String checksum();
+  Optional<String> checksum();
 
   /**
    * @return A link to the checksum of the data

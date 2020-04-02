@@ -115,7 +115,7 @@ public final class AOV3AST
   public static final class AOV3InstallerJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "checksum", required = true)
-    String checksum = "";
+    String checksum;
 
     @JsonProperty(value = "checksum_link", required = true)
     URI checksumLink;
@@ -140,7 +140,7 @@ public final class AOV3AST
   public static final class AOV3PackageJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "checksum", required = true)
-    String checksum = "";
+    String checksum;
 
     @JsonProperty(value = "checksum_link", required = true)
     URI checksumLink;
