@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

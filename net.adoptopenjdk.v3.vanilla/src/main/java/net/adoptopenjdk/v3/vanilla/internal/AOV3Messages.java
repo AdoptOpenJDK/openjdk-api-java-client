@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -42,7 +42,7 @@ public final class AOV3Messages implements AOV3MessagesType
     final Locale locale)
   {
     return ResourceBundle.getBundle(
-      "net.adoptopenjdk.v3.vanilla.Strings",
+      "net.adoptopenjdk.v3.vanilla.internal.Strings",
       locale);
   }
 

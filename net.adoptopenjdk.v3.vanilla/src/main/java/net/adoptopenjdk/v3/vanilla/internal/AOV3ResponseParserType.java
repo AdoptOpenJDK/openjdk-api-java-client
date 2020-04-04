@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import net.adoptopenjdk.v3.api.AOV3AvailableReleases;
 import net.adoptopenjdk.v3.api.AOV3ExceptionParseFailed;

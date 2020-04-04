@@ -14,9 +14,8 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.BeanDescription;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JavaType;
@@ -65,20 +64,20 @@ final class AOV3Deserializers extends SimpleDeserializers
       "java.net.URI",
       "java.util.List<java.lang.String>",
       "java.util.List<java.math.BigInteger>",
-      "java.util.List<net.adoptopenjdk.v3.vanilla.AOV3AST$AOV3BinaryJSON>",
-      "java.util.List<net.adoptopenjdk.v3.vanilla.AOV3AST$AOV3ListBinaryAssetViewJSON>",
-      "java.util.List<net.adoptopenjdk.v3.vanilla.AOV3AST$AOV3ReleaseJSON>",
-      "java.util.List<net.adoptopenjdk.v3.vanilla.AOV3AST$AOV3ReleaseVersionJSON>",
-      "net.adoptopenjdk.v3.vanilla.AOV3AST.AOV3AvailableReleasesJSON",
-      "net.adoptopenjdk.v3.vanilla.AOV3AST.AOV3BinaryJSON",
-      "net.adoptopenjdk.v3.vanilla.AOV3AST.AOV3InstallerJSON",
-      "net.adoptopenjdk.v3.vanilla.AOV3AST.AOV3ListBinaryAssetViewJSON",
-      "net.adoptopenjdk.v3.vanilla.AOV3AST.AOV3PackageJSON",
-      "net.adoptopenjdk.v3.vanilla.AOV3AST.AOV3ReleaseJSON",
-      "net.adoptopenjdk.v3.vanilla.AOV3AST.AOV3ReleaseNamesJSON",
-      "net.adoptopenjdk.v3.vanilla.AOV3AST.AOV3ReleaseVersionJSON",
-      "net.adoptopenjdk.v3.vanilla.AOV3AST.AOV3ReleaseVersionsJSON",
-      "net.adoptopenjdk.v3.vanilla.AOV3AST.AOV3SourceJSON"
+      "java.util.List<net.adoptopenjdk.v3.vanilla.internal.AOV3AST$AOV3BinaryJSON>",
+      "java.util.List<net.adoptopenjdk.v3.vanilla.internal.AOV3AST$AOV3ListBinaryAssetViewJSON>",
+      "java.util.List<net.adoptopenjdk.v3.vanilla.internal.AOV3AST$AOV3ReleaseJSON>",
+      "java.util.List<net.adoptopenjdk.v3.vanilla.internal.AOV3AST$AOV3ReleaseVersionJSON>",
+      "net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3AvailableReleasesJSON",
+      "net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3BinaryJSON",
+      "net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3InstallerJSON",
+      "net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3ListBinaryAssetViewJSON",
+      "net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3PackageJSON",
+      "net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3ReleaseJSON",
+      "net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3ReleaseNamesJSON",
+      "net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3ReleaseVersionJSON",
+      "net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3ReleaseVersionsJSON",
+      "net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3SourceJSON"
     );
   }
 

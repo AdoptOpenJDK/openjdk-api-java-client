@@ -12,14 +12,15 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import net.adoptopenjdk.v3.api.AOV3Error;
 import net.adoptopenjdk.v3.api.AOV3Exception;
 import net.adoptopenjdk.v3.api.AOV3ReleaseKind;
-import net.adoptopenjdk.v3.api.AOV3RequestReleaseNamesType;
+import net.adoptopenjdk.v3.api.AOV3RequestReleaseVersionsType;
 import net.adoptopenjdk.v3.api.AOV3SortOrder;
 import net.adoptopenjdk.v3.api.AOV3Vendor;
+import net.adoptopenjdk.v3.api.AOV3VersionData;
 import net.adoptopenjdk.v3.api.AOV3VersionRange;
 
 import java.math.BigInteger;
@@ -31,7 +32,7 @@ import java.util.function.Consumer;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-final class AOV3RequestReleaseNames implements AOV3RequestReleaseNamesType
+final class AOV3RequestReleaseVersions implements AOV3RequestReleaseVersionsType
 {
   private final AOV3ClientInternalType client;
   private final Consumer<AOV3Error> errorReceiver;
@@ -42,7 +43,7 @@ final class AOV3RequestReleaseNames implements AOV3RequestReleaseNamesType
   private final Optional<AOV3Vendor> vendor;
   private final Optional<AOV3VersionRange> versionRange;
 
-  AOV3RequestReleaseNames(
+  AOV3RequestReleaseVersions(
     final AOV3ClientInternalType inClient,
     final Consumer<AOV3Error> inErrorReceiver,
     final BigInteger inPage,
@@ -71,12 +72,12 @@ final class AOV3RequestReleaseNames implements AOV3RequestReleaseNamesType
   }
 
   @Override
-  public List<String> execute()
+  public List<AOV3VersionData> execute()
     throws AOV3Exception, InterruptedException
   {
     final var uriBuilder = new StringBuilder(128);
     uriBuilder.append(this.client.baseURI());
-    uriBuilder.append("/info/release_names?");
+    uriBuilder.append("/info/release_versions?");
     uriBuilder.append("page=");
     uriBuilder.append(this.page);
     uriBuilder.append("&page_size=");
@@ -100,6 +101,6 @@ final class AOV3RequestReleaseNames implements AOV3RequestReleaseNamesType
     });
 
     return this.client.parserFor(this.errorReceiver, uriBuilder.toString())
-      .parseReleaseNames();
+      .parseReleaseVersions();
   }
 }

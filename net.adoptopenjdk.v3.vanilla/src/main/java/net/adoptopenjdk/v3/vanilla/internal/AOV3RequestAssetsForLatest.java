@@ -14,15 +14,13 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import net.adoptopenjdk.v3.api.AOV3Error;
 import net.adoptopenjdk.v3.api.AOV3Exception;
 import net.adoptopenjdk.v3.api.AOV3JVMImplementation;
 import net.adoptopenjdk.v3.api.AOV3ListBinaryAssetView;
-import net.adoptopenjdk.v3.api.AOV3Release;
 import net.adoptopenjdk.v3.api.AOV3RequestAssetsForLatestType;
-import net.adoptopenjdk.v3.api.AOV3RequestAssetsForReleaseType;
 
 import java.math.BigInteger;
 import java.util.List;

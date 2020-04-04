@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import java.net.URI;
 import java.net.http.HttpClient;

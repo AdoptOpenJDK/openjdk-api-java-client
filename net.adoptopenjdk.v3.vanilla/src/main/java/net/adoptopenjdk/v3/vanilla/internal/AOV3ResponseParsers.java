@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.adoptopenjdk.v3.api.AOV3Error;

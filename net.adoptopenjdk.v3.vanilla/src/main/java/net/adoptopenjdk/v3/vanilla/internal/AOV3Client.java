@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import net.adoptopenjdk.v3.api.AOV3Architecture;
 import net.adoptopenjdk.v3.api.AOV3ClientType;
@@ -51,7 +51,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.zip.GZIPInputStream;
 
-final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
+public final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
 {
   private static final Logger LOG = LoggerFactory.getLogger(AOV3Client.class);
   private final String baseURI;
@@ -59,7 +59,7 @@ final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
   private final AOV3ResponseParsersType parsers;
   private final AOV3MessagesType messages;
 
-  AOV3Client(
+  public AOV3Client(
     final String inBaseURI,
     final HttpClient inClient,
     final AOV3MessagesType inMessages,

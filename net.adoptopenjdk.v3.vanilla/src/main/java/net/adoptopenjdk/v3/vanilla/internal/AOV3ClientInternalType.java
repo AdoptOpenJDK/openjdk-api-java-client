@@ -12,22 +12,28 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import net.adoptopenjdk.v3.api.AOV3Error;
+import net.adoptopenjdk.v3.api.AOV3Exception;
 
-import java.io.InputStream;
 import java.net.URI;
 import java.util.function.Consumer;
 
-/**
- * A provider of response parsers.
- */
-
-public interface AOV3ResponseParsersType
+public interface AOV3ClientInternalType
 {
-  AOV3ResponseParserType createParser(
+  default AOV3ResponseParserType parserFor(
+    final Consumer<AOV3Error> errorReceiver,
+    final String sourceURI)
+    throws AOV3Exception, InterruptedException
+  {
+    return this.parserForURI(errorReceiver, URI.create(sourceURI));
+  }
+
+  AOV3ResponseParserType parserForURI(
     Consumer<AOV3Error> errorReceiver,
-    URI source,
-    InputStream stream);
+    URI sourceURI)
+    throws AOV3Exception, InterruptedException;
+
+  String baseURI();
 }
