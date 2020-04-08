@@ -28,6 +28,8 @@ module net.adoptopenjdk.v3.vanilla
   requires java.net.http;
   requires org.slf4j;
 
+  opens net.adoptopenjdk.v3.vanilla.internal to com.fasterxml.jackson.databind;
+
   exports net.adoptopenjdk.v3.vanilla;
 
   provides AOV3ClientProviderType with AOV3Clients;
