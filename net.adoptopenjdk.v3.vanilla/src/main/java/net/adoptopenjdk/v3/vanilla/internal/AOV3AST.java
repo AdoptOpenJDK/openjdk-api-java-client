@@ -102,6 +102,9 @@ public final class AOV3AST
 
     @JsonProperty(value = "release_name", required = true)
     String releaseName;
+
+    @JsonProperty(value = "version", required = false)
+    AOV3ReleaseVersionJSON versionData;
   }
 
   @JsonDeserialize

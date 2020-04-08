@@ -48,6 +48,17 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3AvailableReleasesJSON;
+import static net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3BinaryJSON;
+import static net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3InstallerJSON;
+import static net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3ListBinaryAssetViewJSON;
+import static net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3PackageJSON;
+import static net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3ReleaseJSON;
+import static net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3ReleaseNamesJSON;
+import static net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3ReleaseVersionJSON;
+import static net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3ReleaseVersionsJSON;
+import static net.adoptopenjdk.v3.vanilla.internal.AOV3AST.AOV3SourceJSON;
+
 public final class AOV3ResponseParser implements AOV3ResponseParserType
 {
   private static final Logger LOG =
@@ -75,7 +86,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   }
 
   private static AOV3Binary toBinary(
-    final AOV3AST.AOV3BinaryJSON binary)
+    final AOV3BinaryJSON binary)
   {
     final var architecture =
       AOV3Architecture.of(
@@ -134,7 +145,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   }
 
   private static AOV3Installer toInstaller(
-    final AOV3AST.AOV3InstallerJSON installer)
+    final AOV3InstallerJSON installer)
   {
     final var checksum =
       Optional.ofNullable(installer.checksum);
@@ -165,7 +176,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   }
 
   private static AOV3Package toPackage(
-    final AOV3AST.AOV3PackageJSON package_)
+    final AOV3PackageJSON package_)
   {
     final var checksum =
       Optional.ofNullable(package_.checksum);
@@ -194,7 +205,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   }
 
   private static AOV3VersionData toVersionData(
-    final AOV3AST.AOV3ReleaseVersionJSON versionData)
+    final AOV3ReleaseVersionJSON versionData)
   {
     return AOV3VersionData.builder()
       .setAdoptBuildNumber(versionData.adoptBuildNumber)
@@ -222,7 +233,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   }
 
   private static AOV3Source toSource(
-    final AOV3AST.AOV3SourceJSON source)
+    final AOV3SourceJSON source)
   {
     return AOV3Source.builder()
       .setLink(source.link)
@@ -232,7 +243,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   }
 
   private AOV3Release toRelease(
-    final AOV3AST.AOV3ReleaseJSON release)
+    final AOV3ReleaseJSON release)
   {
     final var builder = AOV3Release.builder();
 
@@ -296,10 +307,10 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   public AOV3AvailableReleases parseAvailableReleases()
     throws AOV3ExceptionParseFailed
   {
-    try {
-      final AOV3AST.AOV3AvailableReleasesJSON ast =
-        this.objectMapper.readerFor(AOV3AST.AOV3AvailableReleasesJSON.class)
-          .readValue(this.stream);
+    final var factory = this.objectMapper.getFactory();
+    try (final var parser = factory.createParser(this.stream)) {
+      final var ast =
+        this.objectMapper.readValue(parser, AOV3AvailableReleasesJSON.class);
 
       return AOV3AvailableReleases.builder()
         .addAllAvailableLTSReleases(ast.availableLTSReleases)
@@ -307,6 +318,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
         .setMostRecentFeatureRelease(ast.mostRecentFeatureRelease)
         .setMostRecentLTSRelease(ast.mostRecentLTS)
         .build();
+
     } catch (final IOException e) {
       throw new AOV3ExceptionParseFailed(e);
     }
@@ -316,11 +328,10 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   public List<String> parseReleaseNames()
     throws AOV3ExceptionParseFailed
   {
-    try {
-      final AOV3AST.AOV3ReleaseNamesJSON ast =
-        this.objectMapper.readerFor(AOV3AST.AOV3ReleaseNamesJSON.class)
-          .readValue(this.stream);
-
+    final var factory = this.objectMapper.getFactory();
+    try (final var parser = factory.createParser(this.stream)) {
+      final var ast =
+        this.objectMapper.readValue(parser, AOV3ReleaseNamesJSON.class);
       return List.copyOf(ast.releases);
     } catch (final IOException e) {
       throw new AOV3ExceptionParseFailed(e);
@@ -331,10 +342,10 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   public List<AOV3VersionData> parseReleaseVersions()
     throws AOV3ExceptionParseFailed
   {
-    try {
-      final AOV3AST.AOV3ReleaseVersionsJSON ast =
-        this.objectMapper.readerFor(AOV3AST.AOV3ReleaseVersionsJSON.class)
-          .readValue(this.stream);
+    final var factory = this.objectMapper.getFactory();
+    try (final var parser = factory.createParser(this.stream)) {
+      final AOV3ReleaseVersionsJSON ast =
+        this.objectMapper.readValue(parser, AOV3ReleaseVersionsJSON.class);
 
       return ast.versions.stream()
         .flatMap(this::tryToVersionData)
@@ -345,7 +356,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   }
 
   private Stream<? extends AOV3VersionData> tryToVersionData(
-    final AOV3AST.AOV3ReleaseVersionJSON version)
+    final AOV3ReleaseVersionJSON version)
   {
     try {
       return Stream.of(toVersionData(version));
@@ -367,11 +378,15 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   public List<AOV3Release> parseAssetsForRelease()
     throws AOV3ExceptionParseFailed
   {
-    try {
-      final List<AOV3AST.AOV3ReleaseJSON> ast =
-        this.objectMapper.readerFor(new TypeReference<List<AOV3AST.AOV3ReleaseJSON>>()
-        {
-        }).readValue(this.stream);
+    final var factory = this.objectMapper.getFactory();
+    try (final var parser = factory.createParser(this.stream)) {
+      final TypeReference<List<AOV3ReleaseJSON>> typeReference =
+        new TypeReference<>()
+      {
+      };
+
+      final List<AOV3ReleaseJSON> ast =
+        this.objectMapper.readValue(parser, typeReference);
 
       return ast.stream()
         .flatMap(this::tryToRelease)
@@ -385,11 +400,15 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   public List<AOV3ListBinaryAssetView> parseAssetsForLatest()
     throws AOV3ExceptionParseFailed
   {
-    try {
-      final List<AOV3AST.AOV3ListBinaryAssetViewJSON> ast =
-        this.objectMapper.readerFor(new TypeReference<List<AOV3AST.AOV3ListBinaryAssetViewJSON>>()
-        {
-        }).readValue(this.stream);
+    final var factory = this.objectMapper.getFactory();
+    try (final var parser = factory.createParser(this.stream)) {
+      final TypeReference<List<AOV3ListBinaryAssetViewJSON>> typeReference =
+        new TypeReference<>()
+      {
+      };
+
+      final List<AOV3ListBinaryAssetViewJSON> ast =
+        this.objectMapper.readValue(parser, typeReference);
 
       return ast.stream()
         .flatMap(this::tryToListBinaryAssetView)
@@ -400,7 +419,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   }
 
   private Stream<? extends AOV3ListBinaryAssetView> tryToListBinaryAssetView(
-    final AOV3AST.AOV3ListBinaryAssetViewJSON view)
+    final AOV3ListBinaryAssetViewJSON view)
   {
     try {
       return Stream.of(toListBinaryAssetView(view));
@@ -418,7 +437,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   }
 
   private static AOV3ListBinaryAssetView toListBinaryAssetView(
-    final AOV3AST.AOV3ListBinaryAssetViewJSON view)
+    final AOV3ListBinaryAssetViewJSON view)
   {
     final var builder = AOV3ListBinaryAssetView.builder();
 
@@ -431,7 +450,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
   }
 
   private Stream<? extends AOV3Release> tryToRelease(
-    final AOV3AST.AOV3ReleaseJSON release)
+    final AOV3ReleaseJSON release)
   {
     try {
       return Stream.of(this.toRelease(release));
