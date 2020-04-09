@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -270,7 +272,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
     final var versionData =
       toVersionData(
         Objects.requireNonNull(release.versionData, "release.versionData"));
-    final var source =
+    final var releaseSource =
       Optional.ofNullable(release.source).map(AOV3ResponseParser::toSource);
 
     builder
@@ -279,7 +281,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
       .setReleaseLink(releaseLink)
       .setReleaseName(releaseName)
       .setReleaseType(of)
-      .setSource(source)
+      .setSource(releaseSource)
       .setTimestamp(timestamp)
       .setUpdatedAt(updatedAt)
       .setVendor(vendor)
@@ -308,7 +310,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
     throws AOV3ExceptionParseFailed
   {
     final var factory = this.objectMapper.getFactory();
-    try (final var parser = factory.createParser(this.stream)) {
+    try (var parser = factory.createParser(this.stream)) {
       final var ast =
         this.objectMapper.readValue(parser, AOV3AvailableReleasesJSON.class);
 
@@ -329,7 +331,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
     throws AOV3ExceptionParseFailed
   {
     final var factory = this.objectMapper.getFactory();
-    try (final var parser = factory.createParser(this.stream)) {
+    try (var parser = factory.createParser(this.stream)) {
       final var ast =
         this.objectMapper.readValue(parser, AOV3ReleaseNamesJSON.class);
       return List.copyOf(ast.releases);
@@ -343,7 +345,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
     throws AOV3ExceptionParseFailed
   {
     final var factory = this.objectMapper.getFactory();
-    try (final var parser = factory.createParser(this.stream)) {
+    try (var parser = factory.createParser(this.stream)) {
       final AOV3ReleaseVersionsJSON ast =
         this.objectMapper.readValue(parser, AOV3ReleaseVersionsJSON.class);
 
@@ -379,7 +381,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
     throws AOV3ExceptionParseFailed
   {
     final var factory = this.objectMapper.getFactory();
-    try (final var parser = factory.createParser(this.stream)) {
+    try (var parser = factory.createParser(this.stream)) {
       final TypeReference<List<AOV3ReleaseJSON>> typeReference =
         new TypeReference<>()
       {
@@ -401,7 +403,7 @@ public final class AOV3ResponseParser implements AOV3ResponseParserType
     throws AOV3ExceptionParseFailed
   {
     final var factory = this.objectMapper.getFactory();
-    try (final var parser = factory.createParser(this.stream)) {
+    try (var parser = factory.createParser(this.stream)) {
       final TypeReference<List<AOV3ListBinaryAssetViewJSON>> typeReference =
         new TypeReference<>()
       {

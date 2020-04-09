@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -201,6 +203,7 @@ public final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
     );
   }
 
+  // CHECKSTYLE:OFF
   @Override
   public AOV3RequestAssetsForReleaseType assetsForRelease(
     final Consumer<AOV3Error> errorReceiver,
@@ -215,7 +218,9 @@ public final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
     final Optional<AOV3OperatingSystem> operatingSystem,
     final Optional<String> project,
     final Optional<AOV3SortOrder> sortOrder,
-    final Optional<AOV3Vendor> vendor)
+    final Optional<AOV3Vendor> vendor
+    // CHECKSTYLE:ON
+  )
   {
     return new AOV3RequestAssetsForRelease(
       this,

@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,7 +24,16 @@ import java.util.Objects;
 
 public enum AOV3Vendor implements AOV3HasNameTextType
 {
+  /**
+   * AdoptOpenJDK binaries
+   */
+
   ADOPT_OPENJDK("adoptopenjdk"),
+
+  /**
+   * OpenJDK binaries
+   */
+
   OPENJDK("openjdk");
 
   private final String nameText;

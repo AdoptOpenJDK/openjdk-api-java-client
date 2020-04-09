@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,13 +24,52 @@ import java.util.Objects;
 
 public enum AOV3Architecture implements AOV3HasNameTextType
 {
+  /**
+   * AARCH64
+   */
+
   AARCH64("aarch64"),
+
+  /**
+   * ARM
+   */
+
   ARM("arm"),
+
+  /**
+   * PPC64
+   */
+
   PPC64("ppc64"),
+
+  /**
+   * PPC64LE
+   */
+
   PPC64LE("ppc64le"),
+
+  /**
+   * S390X
+   */
+
   S390X("s390x"),
+
+  /**
+   * SPARCV9
+   */
+
   SPARCV9("sparcv9"),
+
+  /**
+   * X32
+   */
+
   X32("x32"),
+
+  /**
+   * X64
+   */
+
   X64("x64");
 
   private final String nameText;

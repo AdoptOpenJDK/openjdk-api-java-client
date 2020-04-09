@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,10 +24,34 @@ import java.util.Objects;
 
 public enum AOV3OperatingSystem implements AOV3HasNameTextType
 {
+  /**
+   * IBM AIX
+   */
+
   AIX("aix"),
+
+  /**
+   * Linux
+   */
+
   LINUX("linux"),
+
+  /**
+   * Apple MacOS
+   */
+
   MAC("mac"),
+
+  /**
+   * Oracle Solaris
+   */
+
   SOLARIS("solaris"),
+
+  /**
+   * Microsoft Windows
+   */
+
   WINDOWS("windows");
 
   private final String nameText;

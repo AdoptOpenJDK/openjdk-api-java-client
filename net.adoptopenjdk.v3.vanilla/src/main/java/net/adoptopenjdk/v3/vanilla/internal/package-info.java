@@ -15,15 +15,7 @@
  */
 
 /**
- * AdoptOpenJDK v3 API
+ * AdoptOpenJDK v3 API (Vanilla internal classes)
  */
 
-module net.adoptopenjdk.v3.api
-{
-  requires static com.io7m.immutables.style;
-  requires static org.immutables.value;
-  requires static org.osgi.annotation.bundle;
-  requires static org.osgi.annotation.versioning;
-
-  exports net.adoptopenjdk.v3.api;
-}
+package net.adoptopenjdk.v3.vanilla.internal;
