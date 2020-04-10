@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
+package net.adoptopenjdk.v3.vanilla.internal;
+
+import net.adoptopenjdk.v3.api.AOV3Error;
+
+import java.io.InputStream;
+import java.net.URI;
+import java.util.function.Consumer;
+
 /**
- * AdoptOpenJDK v3 API
+ * A provider of response parsers.
  */
 
-module net.adoptopenjdk.v3.api
+public interface AOV3ResponseParsersType
 {
-  requires static com.io7m.immutables.style;
-  requires static org.immutables.value;
-  requires static org.osgi.annotation.bundle;
-  requires static org.osgi.annotation.versioning;
-
-  exports net.adoptopenjdk.v3.api;
+  AOV3ResponseParserType createParser(
+    Consumer<AOV3Error> errorReceiver,
+    URI source,
+    InputStream stream);
 }

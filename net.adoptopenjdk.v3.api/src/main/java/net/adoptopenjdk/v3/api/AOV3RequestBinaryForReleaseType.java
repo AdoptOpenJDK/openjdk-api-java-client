@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,7 +19,8 @@ package net.adoptopenjdk.v3.api;
 import java.net.URI;
 
 /**
- * @see "https://api.adoptopenjdk.net/swagger-ui/#/Binary/get_v3_binary_version__release_name___os___arch___image_type___jvm_impl___heap_size___vendor_"
+ * @see "https://api.adoptopenjdk.net/swagger-ui/#/Binary/get_v3_binary_version
+ * __release_name___os___arch___image_type___jvm_impl___heap_size___vendor_"
  */
 
 public interface AOV3RequestBinaryForReleaseType

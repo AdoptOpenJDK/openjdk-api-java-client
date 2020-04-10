@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,6 +18,11 @@ package net.adoptopenjdk.v3.vanilla;
 
 import net.adoptopenjdk.v3.api.AOV3ClientProviderType;
 import net.adoptopenjdk.v3.api.AOV3ClientType;
+import net.adoptopenjdk.v3.vanilla.internal.AOV3Client;
+import net.adoptopenjdk.v3.vanilla.internal.AOV3Messages;
+import net.adoptopenjdk.v3.vanilla.internal.AOV3MessagesType;
+import net.adoptopenjdk.v3.vanilla.internal.AOV3ResponseParsers;
+import net.adoptopenjdk.v3.vanilla.internal.AOV3ResponseParsersType;
 import org.osgi.service.component.annotations.Component;
 
 import java.net.http.HttpClient;

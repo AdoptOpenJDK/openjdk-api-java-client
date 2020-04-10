@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -25,6 +27,7 @@ import java.util.List;
  * Jackson JSON AST types.
  */
 
+// CHECKSTYLE:OFF
 public final class AOV3AST
 {
   /**
@@ -102,6 +105,9 @@ public final class AOV3AST
 
     @JsonProperty(value = "release_name", required = true)
     String releaseName;
+
+    @JsonProperty(value = "version", required = false)
+    AOV3ReleaseVersionJSON versionData;
   }
 
   @JsonDeserialize

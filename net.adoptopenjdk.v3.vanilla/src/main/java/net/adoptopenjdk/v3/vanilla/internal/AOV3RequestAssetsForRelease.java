@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import net.adoptopenjdk.v3.api.AOV3Architecture;
 import net.adoptopenjdk.v3.api.AOV3Error;
@@ -51,6 +53,7 @@ final class AOV3RequestAssetsForRelease
   private final Optional<AOV3SortOrder> sortOrder;
   private final Optional<AOV3Vendor> vendor;
 
+  // CHECKSTYLE:OFF
   AOV3RequestAssetsForRelease(
     final AOV3ClientInternalType inClient,
     final Consumer<AOV3Error> inErrorReceiver,
@@ -65,7 +68,9 @@ final class AOV3RequestAssetsForRelease
     final Optional<AOV3OperatingSystem> inOperatingSystem,
     final Optional<String> inProject,
     final Optional<AOV3SortOrder> inSortOrder,
-    final Optional<AOV3Vendor> inVendor)
+    final Optional<AOV3Vendor> inVendor
+    // CHECKSTYLE:ON
+  )
   {
     this.client =
       Objects.requireNonNull(inClient, "client");

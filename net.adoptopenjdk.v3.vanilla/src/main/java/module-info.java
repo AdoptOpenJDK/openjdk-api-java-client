@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,6 +29,8 @@ module net.adoptopenjdk.v3.vanilla
   requires com.fasterxml.jackson.databind;
   requires java.net.http;
   requires org.slf4j;
+
+  opens net.adoptopenjdk.v3.vanilla.internal to com.fasterxml.jackson.databind;
 
   exports net.adoptopenjdk.v3.vanilla;
 

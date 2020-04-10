@@ -9,12 +9,12 @@
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
     <artifactId>com.io7m.primogenitor</artifactId>
-    <version>3.5.0</version>
+    <version>4.0.1</version>
   </parent>
 
   <groupId>net.adoptopenjdk</groupId>
   <artifactId>net.adoptopenjdk</artifactId>
-  <version>0.3.0</version>
+  <version>0.3.1</version>
   <packaging>pom</packaging>
 
   <name>net.adoptopenjdk</name>
@@ -28,7 +28,7 @@
   </modules>
 
   <properties>
-    <io7m.api.previousVersion>0.0.1</io7m.api.previousVersion>
+    <io7m.api.previousVersion>0.3.1-SNAPSHOT</io7m.api.previousVersion>
     <net.adoptopenjdk.org.immutables.version>2.8.3</net.adoptopenjdk.org.immutables.version>
     <junit.version>5.6.0</junit.version>
     <jackson.version>2.10.2</jackson.version>
@@ -194,6 +194,13 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+    </plugins>
   </build>
 
 </project>

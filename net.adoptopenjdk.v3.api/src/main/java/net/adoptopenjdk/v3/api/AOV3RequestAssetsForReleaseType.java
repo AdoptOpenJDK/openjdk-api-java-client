@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -17,7 +19,8 @@ package net.adoptopenjdk.v3.api;
 import java.util.List;
 
 /**
- * @see "https://api.adoptopenjdk.net/swagger-ui/#/Assets/get_v3_assets_feature_releases__feature_version___release_type_"
+ * @see "https://api.adoptopenjdk.net/swagger-ui/#/Assets/get_v3_assets_feature
+ * _releases__feature_version___release_type_"
  */
 
 public interface AOV3RequestAssetsForReleaseType

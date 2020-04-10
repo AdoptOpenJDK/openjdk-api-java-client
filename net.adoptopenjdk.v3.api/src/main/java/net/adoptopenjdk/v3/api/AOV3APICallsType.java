@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,7 +31,8 @@ public interface AOV3APICallsType
    *
    * @return An executable request
    *
-   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Release%20Info/get_v3_info_available_releases"
+   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Release%20Info/get_v3_info
+   * _available_releases"
    */
 
   AOV3RequestReleasesType availableReleases(
@@ -37,10 +40,17 @@ public interface AOV3APICallsType
 
   /**
    * @param errorReceiver A receiver of errors encountered during the API call
+   * @param page          The page number
+   * @param pageSize      The page size
+   * @param releaseKind   The target release kind
+   * @param sortOrder     The result sort order
+   * @param vendor        The target vendor
+   * @param versionRange  The range of versions to fetch
    *
    * @return An executable request
    *
-   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Release%20Info/get_v3_info_release_names"
+   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Release%20Info/get_v3_info
+   * _release_names"
    */
 
   AOV3RequestReleaseNamesType releaseNames(
@@ -55,10 +65,17 @@ public interface AOV3APICallsType
 
   /**
    * @param errorReceiver A receiver of errors encountered during the API call
+   * @param page          The page number
+   * @param pageSize      The page size
+   * @param releaseKind   The target release kind
+   * @param sortOrder     The result sort order
+   * @param vendor        The target vendor
+   * @param versionRange  The range of versions to fetch
    *
    * @return An executable request
    *
-   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Release%20Info/get_v3_info_release_versions"
+   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Release%20Info/get_v3_info
+   * _release_versions"
    */
 
   AOV3RequestReleaseVersionsType releaseVersions(
@@ -72,13 +89,27 @@ public interface AOV3APICallsType
   );
 
   /**
-   * @param errorReceiver A receiver of errors encountered during the API call
+   * @param errorReceiver     A receiver of errors encountered during the API call
+   * @param page              The page number
+   * @param pageSize          The page size
+   * @param version           The target version
+   * @param releaseKind       The target release kind
+   * @param architecture      The target architecture
+   * @param heapSize          The target heap size
+   * @param imageKind         The target image kind
+   * @param jvmImplementation The target JVM implementation
+   * @param operatingSystem   The target operating system
+   * @param project           The target project
+   * @param sortOrder         The result sort order
+   * @param vendor            The target vendor
    *
    * @return An executable request
    *
-   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Assets/get_v3_assets_feature_releases__feature_version___release_type_"
+   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Assets/get_v3_assets
+   * _feature_releases__feature_version___release_type_"
    */
 
+  // CHECKSTYLE:OFF
   AOV3RequestAssetsForReleaseType assetsForRelease(
     Consumer<AOV3Error> errorReceiver,
     BigInteger page,
@@ -93,14 +124,19 @@ public interface AOV3APICallsType
     Optional<String> project,
     Optional<AOV3SortOrder> sortOrder,
     Optional<AOV3Vendor> vendor
+    // CHECKSTYLE:ON
   );
 
+
   /**
-   * @param errorReceiver A receiver of errors encountered during the API call
+   * @param errorReceiver     A receiver of errors encountered during the API call
+   * @param version           The target version
+   * @param jvmImplementation The target JVM implementation
    *
    * @return An executable request
    *
-   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Assets/get_v3_assets_latest__feature_version___jvm_impl_"
+   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Assets/get_v3_assets
+   * _latest__feature_version___jvm_impl_"
    */
 
   AOV3RequestAssetsForLatestType assetsForLatest(
@@ -110,11 +146,22 @@ public interface AOV3APICallsType
   );
 
   /**
-   * @param errorReceiver A receiver of errors encountered during the API call
+   * @param errorReceiver     A receiver of errors encountered during the API call
+   * @param version           The target version
+   * @param releaseKind       The target release kind
+   * @param architecture      The target architecture
+   * @param heapSize          The target heap size
+   * @param imageKind         The target image kind
+   * @param jvmImplementation The target JVM implementation
+   * @param operatingSystem   The target operating system
+   * @param project           The target project
+   * @param vendor            The target vendor
    *
    * @return An executable request
    *
-   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Binary/get_v3_binary_latest__feature_version___release_type___os___arch___image_type___jvm_impl___heap_size___vendor_"
+   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Binary/get_v3_binary
+   * _latest__feature_version___release_type___os___arch___image_type___jvm_impl
+   * ___heap_size___vendor_"
    */
 
   AOV3RequestBinaryForLatestType binaryForLatest(
@@ -131,11 +178,21 @@ public interface AOV3APICallsType
   );
 
   /**
-   * @param errorReceiver A receiver of errors encountered during the API call
+   * @param errorReceiver     A receiver of errors encountered during the API call
+   * @param architecture      The target architecture
+   * @param heapSize          The target heap size
+   * @param imageKind         The target image kind
+   * @param jvmImplementation The target JVM implementation
+   * @param releaseName       The name of the release
+   * @param operatingSystem   The target operating system
+   * @param project           The target project
+   * @param vendor            The target vendor
    *
    * @return An executable request
    *
-   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Binary/get_v3_binary_version__release_name___os___arch___image_type___jvm_impl___heap_size___vendor_"
+   * @see "https://api.adoptopenjdk.net/swagger-ui/#/Binary/get_v3_binary
+   * _version__release_name___os___arch___image_type___jvm_impl___heap_size
+   * ___vendor_"
    */
 
   AOV3RequestBinaryForReleaseType binaryForRelease(

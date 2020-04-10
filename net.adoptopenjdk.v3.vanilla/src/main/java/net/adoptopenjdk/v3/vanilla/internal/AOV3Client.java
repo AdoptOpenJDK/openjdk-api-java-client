@@ -1,4 +1,6 @@
 /*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -12,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.adoptopenjdk.v3.vanilla;
+package net.adoptopenjdk.v3.vanilla.internal;
 
 import net.adoptopenjdk.v3.api.AOV3Architecture;
 import net.adoptopenjdk.v3.api.AOV3ClientType;
@@ -51,7 +53,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.zip.GZIPInputStream;
 
-final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
+public final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
 {
   private static final Logger LOG = LoggerFactory.getLogger(AOV3Client.class);
   private final String baseURI;
@@ -59,7 +61,7 @@ final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
   private final AOV3ResponseParsersType parsers;
   private final AOV3MessagesType messages;
 
-  AOV3Client(
+  public AOV3Client(
     final String inBaseURI,
     final HttpClient inClient,
     final AOV3MessagesType inMessages,
@@ -201,6 +203,7 @@ final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
     );
   }
 
+  // CHECKSTYLE:OFF
   @Override
   public AOV3RequestAssetsForReleaseType assetsForRelease(
     final Consumer<AOV3Error> errorReceiver,
@@ -215,7 +218,9 @@ final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
     final Optional<AOV3OperatingSystem> operatingSystem,
     final Optional<String> project,
     final Optional<AOV3SortOrder> sortOrder,
-    final Optional<AOV3Vendor> vendor)
+    final Optional<AOV3Vendor> vendor
+    // CHECKSTYLE:ON
+  )
   {
     return new AOV3RequestAssetsForRelease(
       this,
