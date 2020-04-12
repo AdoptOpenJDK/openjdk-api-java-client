@@ -20,6 +20,8 @@ import com.io7m.immutables.styles.ImmutablesStyleType;
 import org.immutables.value.Value;
 
 /**
+ * A binary asset.
+ *
  * @see "https://api.adoptopenjdk.net/swagger-ui/#/Assets/get_v3_assets_feature
  * _releases__feature_version___release_type_"
  */

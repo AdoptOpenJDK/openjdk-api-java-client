@@ -19,6 +19,8 @@ package net.adoptopenjdk.v3.api;
 import java.util.List;
 
 /**
+ * Request assets for a specific release.
+ *
  * @see "https://api.adoptopenjdk.net/swagger-ui/#/Assets/get_v3_assets_feature
  * _releases__feature_version___release_type_"
  */

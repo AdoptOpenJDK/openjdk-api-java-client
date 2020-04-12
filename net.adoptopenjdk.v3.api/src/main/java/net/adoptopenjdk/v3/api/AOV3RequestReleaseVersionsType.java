@@ -19,6 +19,8 @@ package net.adoptopenjdk.v3.api;
 import java.util.List;
 
 /**
+ * Request a list of release versions.
+ *
  * @see "https://api.adoptopenjdk.net/swagger-ui/#/Release%20Info/get_v3_info_release_versions"
  */
 
