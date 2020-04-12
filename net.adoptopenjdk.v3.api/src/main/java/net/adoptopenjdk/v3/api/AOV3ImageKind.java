@@ -18,6 +18,10 @@ package net.adoptopenjdk.v3.api;
 
 import java.util.Objects;
 
+/**
+ * The kind of runtime image (such as a JDK or a minimal JRE).
+ */
+
 public enum AOV3ImageKind implements AOV3HasNameTextType
 {
   /**

@@ -14,7 +14,7 @@
 
   <groupId>net.adoptopenjdk</groupId>
   <artifactId>net.adoptopenjdk</artifactId>
-  <version>0.3.1</version>
+  <version>0.3.2</version>
   <packaging>pom</packaging>
 
   <name>net.adoptopenjdk</name>
@@ -25,6 +25,7 @@
     <module>net.adoptopenjdk.v3.api</module>
     <module>net.adoptopenjdk.v3.vanilla</module>
     <module>net.adoptopenjdk.v3.tests</module>
+    <module>net.adoptopenjdk.site</module>
   </modules>
 
   <properties>
@@ -149,6 +150,11 @@
         <version>${jackson.version}</version>
       </dependency>
 
+      <dependency>
+        <groupId>com.io7m.primogenitor</groupId>
+        <artifactId>com.io7m.primogenitor.support</artifactId>
+        <version>5.0.0</version>
+      </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>

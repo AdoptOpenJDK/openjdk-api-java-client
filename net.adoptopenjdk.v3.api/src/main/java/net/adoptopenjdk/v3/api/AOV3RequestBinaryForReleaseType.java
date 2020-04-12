@@ -19,6 +19,8 @@ package net.adoptopenjdk.v3.api;
 import java.net.URI;
 
 /**
+ * Request binaries for a specific release.
+ *
  * @see "https://api.adoptopenjdk.net/swagger-ui/#/Binary/get_v3_binary_version
  * __release_name___os___arch___image_type___jvm_impl___heap_size___vendor_"
  */
