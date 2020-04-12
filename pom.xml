@@ -14,7 +14,7 @@
 
   <groupId>net.adoptopenjdk</groupId>
   <artifactId>net.adoptopenjdk</artifactId>
-  <version>0.3.2-SNAPSHOT</version>
+  <version>0.3.2</version>
   <packaging>pom</packaging>
 
   <name>net.adoptopenjdk</name>
