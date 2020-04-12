@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>AdoptOpenJDK (Java API)</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+<div class="container">
+  <h1>AdoptOpenJDK Java API</h1>
+  <h2>Overview</h2>
+  <p>
+    The Java API provides type-safe access to the <a href="https://api.adoptopenjdk.net">AdoptOpenJDK REST API</a>.
+  </p>
+  <h2>Get Involved</h2>
+  <p>Please file issues, complaints, feature requests, etc, on the <a href="http://github.com/AdoptOpenJDK/openjdk-api-java-client/issues">Issue
+    Tracker</a>.</p>
+  <h2>Usage</h2>
+  <h3>Maven Dependencies</h3>
+  <pre><![CDATA[<dependency>
+  <groupId>net.adoptopenjdk</groupId>
+  <artifactId>net.adoptopenjdk.v3.api</artifactId>
+  <version>0.3.2</version>
+</dependency>
+<dependency>
+  <groupId>net.adoptopenjdk</groupId>
+  <artifactId>net.adoptopenjdk.v3.vanilla</artifactId>
+  <version>0.3.2</version>
+</dependency>
+]]></pre>
+  <h3>JavaDoc</h3>
+  <p>See the <a href="apidocs">JavaDoc</a>.</p>
+  <h3>Five Second Tutorial</h3>
+  <pre><![CDATA[var clients = new AOV3Clients();
+try (var client = clients.createClient()) {
+  var request = client.availableReleases(...);
+  var releases = request.execute();
+}
+]]></pre>
+</div>
+</body>
+</html>

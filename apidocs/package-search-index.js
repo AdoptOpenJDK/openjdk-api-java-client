@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"net.adoptopenjdk.v3.api"},{"l":"net.adoptopenjdk.v3.vanilla"},{"l":"net.adoptopenjdk.v3.vanilla.internal"}]
