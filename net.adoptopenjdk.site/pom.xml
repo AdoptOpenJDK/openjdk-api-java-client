@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>net.adoptopenjdk</artifactId>
+    <groupId>net.adoptopenjdk</groupId>
+    <version>0.3.3</version>
+  </parent>
+
+  <artifactId>net.adoptopenjdk.site</artifactId>
+
+  <name>net.adoptopenjdk.site</name>
+  <description>Adopt OpenJDK API (Site)</description>
+  <url>http://github.com/AdoptOpenJDK/openjdk-api-java-client</url>
+
+  <properties>
+    <mdep.analyze.skip>true</mdep.analyze.skip>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>net.adoptopenjdk.v3.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>net.adoptopenjdk.v3.vanilla</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.versioning</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.component.annotations</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.io7m.immutables.style</groupId>
+      <artifactId>com.io7m.immutables.style</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.io7m.primogenitor</groupId>
+      <artifactId>com.io7m.primogenitor.support</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <!-- Copy documentation resources into build directory -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-documentation-resources</id>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <outputDirectory>${project.build.directory}/site/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources/</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Unpack sources of dependencies -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-sources</id>
+            <phase>package</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <excludes>module-info.java</excludes>
+              <includeGroupIds>${project.groupId}</includeGroupIds>
+              <classifier>sources</classifier>
+              <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+              <outputDirectory>${project.build.directory}/javadoc-sources</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>make-classpath</id>
+            <phase>package</phase>
+            <goals>
+              <goal>build-classpath</goal>
+            </goals>
+            <configuration>
+              <outputFile>${project.build.directory}/javadoc-classpath</outputFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Javadoc handling -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <mainClass>com.io7m.primogenitor.support.TrivialJavadoc</mainClass>
+              <arguments>
+                <argument>${project.build.directory}/javadoc-sources</argument>
+                <argument>${project.build.directory}/javadoc-classpath</argument>
+                <argument>${project.build.directory}/site/apidocs</argument>
+                <argument>${project.build.directory}/javadoc-log.txt</argument>
+                <argument>${project.build.directory}/javadoc-options</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
