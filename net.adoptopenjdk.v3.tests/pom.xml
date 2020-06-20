@@ -60,4 +60,11 @@
     </dependency>
   </dependencies>
 
+  <contributors>
+    <contributor>
+      <name>Max Rydahl Andersen</name>
+      <email>max@xam.dk</email>
+      <url>http://xam.dk</url>
+    </contributor>
+  </contributors>
 </project>
