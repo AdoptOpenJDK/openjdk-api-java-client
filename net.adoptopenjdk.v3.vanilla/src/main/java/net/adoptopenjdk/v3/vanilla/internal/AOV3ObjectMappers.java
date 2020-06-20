@@ -33,6 +33,7 @@ public final class AOV3ObjectMappers
     final JsonMapper mapper =
       JsonMapper.builder()
         .configure(DeserializationFeature.USE_BIG_INTEGER_FOR_INTS, true)
+        .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
         .build();
 
     final var deserializers = AOV3Deserializers.create();
