@@ -61,6 +61,13 @@ public final class AOV3AST
 
     @JsonProperty(value = "most_recent_lts", required = true)
     BigInteger mostRecentLTS = BigInteger.ZERO;
+
+    @JsonProperty(value = "most_recent_feature_version", required = true)
+    BigInteger getMostRecentFeatureVersion;
+
+    @JsonProperty(value = "tip_version", required = true)
+    BigInteger tipVersion;
+
   }
 
   @JsonDeserialize

@@ -1,9 +1,22 @@
-<c:changelog xmlns:c="urn:com.io7m.changelog:4.0" project="openjdk-api-java-client">
-   <c:releases>
-   </c:releases>
-   <c:ticket-systems>
-      <c:ticket-system id="com.github.adoptopenjdk.openjdk-api-java-client"
-                       url="https://github.com/AdoptOpenJDK/openjdk-api-java-client/issues/"
-                       default="true"/>
-   </c:ticket-systems>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<c:changelog project="openjdk-api-java-client" xmlns:c="urn:com.io7m.changelog:4.0">
+  <c:releases>
+    <c:release date="2020-06-20T19:23:13+00:00" ticket-system="com.github.adoptopenjdk.openjdk-api-java-client" version="0.4.0">
+      <c:changes>
+        <c:change date="2020-06-20T00:00:00+00:00" summary="Add support for new fields. Thanks @maxandersen.">
+          <c:tickets>
+            <c:ticket id="6"/>
+          </c:tickets>
+        </c:change>
+        <c:change date="2020-06-20T19:23:13+00:00" summary="Enable support for ignoring unrecognized fields. Thanks @joschi.">
+          <c:tickets>
+            <c:ticket id="8"/>
+          </c:tickets>
+        </c:change>
+      </c:changes>
+    </c:release>
+  </c:releases>
+  <c:ticket-systems>
+    <c:ticket-system default="true" id="com.github.adoptopenjdk.openjdk-api-java-client" url="https://github.com/AdoptOpenJDK/openjdk-api-java-client/issues/"/>
+  </c:ticket-systems>
 </c:changelog>
