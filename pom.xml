@@ -58,6 +58,13 @@
       <url>http://io7m.com</url>
     </developer>
   </developers>
+  <contributors>
+    <contributor>
+      <name>Jochen Schalanda</name>
+      <email>jochen@schalanda.name</email>
+      <url>https://github.com/joschi/</url>
+    </contributor>
+  </contributors>
 
   <issueManagement>
     <url>http://github.com/AdoptOpenJDK/openjdk-api-java-client/issues</url>
