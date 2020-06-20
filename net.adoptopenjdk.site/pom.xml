@@ -9,7 +9,7 @@
   <parent>
     <artifactId>net.adoptopenjdk</artifactId>
     <groupId>net.adoptopenjdk</groupId>
-    <version>0.4.0</version>
+    <version>0.4.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>net.adoptopenjdk.site</artifactId>
