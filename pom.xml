@@ -58,11 +58,17 @@
       <url>http://io7m.com</url>
     </developer>
   </developers>
+
   <contributors>
     <contributor>
       <name>Jochen Schalanda</name>
       <email>jochen@schalanda.name</email>
       <url>https://github.com/joschi/</url>
+    </contributor>
+    <contributor>
+      <name>Max Rydahl Andersen</name>
+      <email>max@xam.dk</email>
+      <url>http://xam.dk</url>
     </contributor>
   </contributors>
 
