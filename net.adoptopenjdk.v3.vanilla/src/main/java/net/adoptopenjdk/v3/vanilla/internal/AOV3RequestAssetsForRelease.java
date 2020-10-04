@@ -69,7 +69,7 @@ final class AOV3RequestAssetsForRelease
     final Optional<String> inProject,
     final Optional<AOV3SortOrder> inSortOrder,
     final Optional<AOV3Vendor> inVendor
-    // CHECKSTYLE:ON
+  // CHECKSTYLE:ON
   )
   {
     this.client =

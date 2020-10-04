@@ -219,7 +219,7 @@ public final class AOV3Client implements AOV3ClientType, AOV3ClientInternalType
     final Optional<String> project,
     final Optional<AOV3SortOrder> sortOrder,
     final Optional<AOV3Vendor> vendor
-    // CHECKSTYLE:ON
+  // CHECKSTYLE:ON
   )
   {
     return new AOV3RequestAssetsForRelease(

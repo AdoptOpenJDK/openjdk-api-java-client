@@ -16,6 +16,7 @@
 
 package net.adoptopenjdk.v3.vanilla.internal;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -40,6 +41,7 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static final class AOV3ReleaseNamesJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "releases", required = true)
@@ -47,6 +49,7 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static final class AOV3AvailableReleasesJSON
     implements AOV3ASTMemberType
   {
@@ -71,6 +74,7 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static final class AOV3ReleaseVersionJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "adopt_build_number")
@@ -105,6 +109,7 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static final class AOV3ListBinaryAssetViewJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "binary", required = true)
@@ -118,6 +123,7 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static final class AOV3ReleaseVersionsJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "versions", required = true)
@@ -125,6 +131,7 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static final class AOV3InstallerJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "checksum", required = true)
@@ -150,6 +157,7 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static final class AOV3PackageJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "checksum", required = true)
@@ -175,6 +183,7 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static final class AOV3BinaryJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "architecture", required = true)
@@ -212,6 +221,7 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static final class AOV3SourceJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "link", required = true)
@@ -225,6 +235,7 @@ public final class AOV3AST
   }
 
   @JsonDeserialize
+  @JsonIgnoreProperties(ignoreUnknown = true)
   public static final class AOV3ReleaseJSON implements AOV3ASTMemberType
   {
     @JsonProperty(value = "binaries", required = true)
